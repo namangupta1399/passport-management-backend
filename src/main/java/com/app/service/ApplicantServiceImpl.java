@@ -18,7 +18,6 @@ public class ApplicantServiceImpl implements IApplicantService{
 
 	@Autowired
 	private UserRepository userRepository;
-	
 	@Autowired
 	private PassportApplicationRepository applicationRepository;
 	
