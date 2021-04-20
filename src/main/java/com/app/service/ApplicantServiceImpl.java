@@ -32,9 +32,9 @@ public class ApplicantServiceImpl implements IApplicantService{
 	}
 
 	
-	public void deleteUser(User userId) {
+	public void deleteUser(int userId) {
 		
-		userRepository.delete(userId);
+		userRepository.deleteById(userId);
 	}
 
 	
@@ -94,6 +94,13 @@ public class ApplicantServiceImpl implements IApplicantService{
 		// TODO Auto-generated method stub
 		applicationRepository.deleteById(application.getApplicationNo());
 		
+	}
+
+
+	@Override
+	public void deleteUser(User user) {
+		// TODO Auto-generated method stub
+		applicationRepository.deleteById(user.getUserId());
 	}
 
 }

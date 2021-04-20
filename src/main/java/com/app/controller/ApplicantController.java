@@ -21,54 +21,57 @@ import com.app.service.ApplicantServiceImpl;
 public class ApplicantController {
 	
 	@Autowired
-	private ApplicantServiceImpl service;
+	private ApplicantServiceImpl applicantService;
 	
 	@PostMapping(path = "/new", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<User> createUser(@RequestBody User user) {
-		User newUser = service.addApplicant(user);
-		return new ResponseEntity<User>(newUser, HttpStatus.OK);
+		User newUser = applicantService.addUser(user);
+		if(user != null) {
+			return new ResponseEntity<User>(newUser, HttpStatus.ACCEPTED);
+		}
+		return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@GetMapping(path = "/{id}", consumes = "application/json")
 	public ResponseEntity<User> getUser(@PathVariable("id") int userId) {
-		User user = service.viewApplicant(userId);
-		return new ResponseEntity<User>(user, HttpStatus.OK);
+		User user = applicantService.viewUser(userId);
+		if(user != null) {
+			return new ResponseEntity<User>(user, HttpStatus.OK);
+		}
+		return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 	}
 	
 	@DeleteMapping(path = "/delete/{id}", consumes = "application/json")
 	public ResponseEntity<Boolean> deleteUser(@PathVariable("id") int userId) {
-		boolean userDeleted = service.deleteApplicant(userId);
+		applicantService.deleteUser(userId);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@PutMapping(path = "/update", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<User> updateUser(@RequestBody User user){
-		service.updateApplicant(user.getUserId(), user);
+		applicantService.updateUser(user.getUserId(), user);
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 
 //	Create passport application
 	@PostMapping(path = "/passport/new", produces = "application/json", consumes = "application/json")
 	public ResponseEntity<PassportApplication> createPassportApplication(PassportApplication application) {
-		service.addPassportApplication(application);
+		applicantService.addPassportApplication(application);
 		return new ResponseEntity<>(application, HttpStatus.ACCEPTED);
 	}
 	
 //	Get passport application
 	@GetMapping(path = "/passport/{appNo}", produces = "application/json")
 	public ResponseEntity<PassportApplication> getPassportApplication(@PathVariable("appNo") int appNo){
-		PassportApplication application = service.getPassportApplication(appNo);
-		return ResponseEntity<>(application, HttpStatus.OK);
+		PassportApplication application = applicantService.viewPassportApplication(appNo);
+		return new ResponseEntity<>(application, HttpStatus.OK);
 	}
 	
 //	Delete passport application
 	@DeleteMapping(path = "/passport/delete/{appNo}", consumes = "application/json")
 	public ResponseEntity<Boolean> deletePassportApplication(@PathVariable("appNo") int appNo) {
-		boolean isDeleted = service.deletePassportApplication(appNo);
-		if(isDeleted) {
-			return new ResponseEntity<>(HttpStatus.OK);
-		}
-		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		applicantService.deletePassportApplication(appNo);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 //	Update passport application

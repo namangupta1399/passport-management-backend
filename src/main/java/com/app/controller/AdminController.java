@@ -23,10 +23,6 @@ import com.app.service.ApplicantServiceImpl;
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
-
-//	Applicant Service
-	@Autowired
-	private ApplicantServiceImpl applicantService;
 	
 //	Admin Service
 	@Autowired
@@ -35,7 +31,7 @@ public class AdminController {
 //	Get all users
 	@GetMapping(path = "/applicants", produces = "application/json")
 	public ResponseEntity<List<User>> getAllUsers() {
-		List<User> users = applicantService.getAllUsers();
+		List<User> users = adminService.getAllUsers();
 		if(users.size() <= 0) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
