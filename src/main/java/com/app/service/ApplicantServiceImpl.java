@@ -10,92 +10,92 @@ import org.springframework.stereotype.Service;
 import com.app.beans.Helpdesk;
 import com.app.beans.PassportApplication;
 import com.app.beans.User;
+import com.app.repository.HelpdeskRepository;
+import com.app.repository.PassportApplicationRepository;
 import com.app.repository.UserRepository;
 
 @Service
+@Transactional
 public class ApplicantServiceImpl implements IApplicantService{
 
 	@Autowired
-	private UserRepository applicantRepository;
-	
+	private UserRepository userRepository;
 	@Autowired
 	private PassportApplicationRepository applicationRepository;
 	
 	@Autowired
-	private HelpDeskRepository helpdeskRepository;
+	private HelpdeskRepository helpdeskRepository;
 	
 
-	@Transactional
-	@Override
+	
 	public User addUser(User user) {
 		
-		return applicantRepository.add(user);
+		return userRepository.save(user);
 		
 	}
 
-	@Transactional
-	@Override
+	
 	public void deleteUser(User userId) {
 		
-		applicantRepository.delete(userId);
+		userRepository.delete(userId);
 	}
 
-	@Transactional
-	@Override
+	
 	public void updateUser(int userId, User user) {
-		applicantRepository.save(user);
+		userRepository.save(user);
 		
 	}
 
-	@Transactional
-	@Override
+	
 	public User viewUser(int userId) {
-		return applicantRepository.findById(userId).get();
+		return userRepository.findById(userId).get();
 		
 	}
 
-	@Transactional
-	@Override
+	
 	public PassportApplication addPassportApplication(PassportApplication application) {
 		
-		return applicationRepository.add(application);
+		return applicationRepository.save(application);
 		
 	}
 
-	@Transactional 
-	@Override
-	public void deletePassportApplication(Application applicationNo) {
+	 
+	public void deletePassportApplication(int applicationNo) {
 		
-		applicantRepository.deleteById(applicationNo);
+		userRepository.deleteById(applicationNo);
 	}
 
-	@Transactional 
-	@Override
-	public void updatePassportApplication(int userId, Application application) {
+	
+	public void updatePassportApplication(int userId, PassportApplication application) {
 		applicationRepository.save(application);
 		
 	}
 	
-	@Transactional 
-	@Override
+	 
 	public PassportApplication viewPassportApplication(int applicationNo) {
 		
-		return applicationRepository.get(applicationNo);
+		return applicationRepository.findById(applicationNo).get();
 	}
 
-	@Transactional
-	@Override
+	
 	public Helpdesk addHelpDeskQuery(Helpdesk helpDeskQuery) {
 	 
-		return helpdeskRepository.add(helpDeskQuery);
+		return helpdeskRepository.save(helpDeskQuery);
 		
 	}
 
-	@Transactional
-	@Override
+	
 	public void updateHelpDeskQuery(int userId, Helpdesk helpDeskQuery) {
 		
-		return helpdeskRepository.save(helpDeskQuery);
+		helpdeskRepository.save(helpDeskQuery);
+		
+	}
+
+
+	@Override
+	public void deletePassportApplication(PassportApplication application) {
+		// TODO Auto-generated method stub
+		applicationRepository.deleteById(application.getApplicationNo());
 		
 	}
 
