@@ -1,7 +1,5 @@
 package com.app.service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +26,6 @@ public class ApplicantServiceImpl implements IApplicantService{
 	private HelpdeskRepository helpdeskRepository;
 	
 
-	
 	public User addUser(User user) {
 		
 		return userRepository.save(user);
