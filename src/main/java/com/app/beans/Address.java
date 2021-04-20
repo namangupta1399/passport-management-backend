@@ -1,8 +1,15 @@
 package com.app.beans;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+@Entity
 public class Address {
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int id;
 	private String houseNo;
 	private String street;
@@ -10,10 +17,7 @@ public class Address {
 	private String district;
 	private String pinCode;
 	private String mobileNo;
-	
-	@OneToOne(mappedBy = "address")
-	private PassportApplication passportApplication;
-	
+		
 	public Address() {
 		// TODO Auto-generated constructor stub
 	}

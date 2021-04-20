@@ -21,8 +21,7 @@ public class ApplicantServiceImpl implements IApplicantService{
 	@Autowired
 	private PassportApplicationRepository applicationRepository;
 	
-	@Autowired
-	private HelpdeskRepository helpdeskRepository;
+
 	
 
 	public User addUser(User user) {
@@ -46,53 +45,6 @@ public class ApplicantServiceImpl implements IApplicantService{
 	
 	public User viewUser(int userId) {
 		return userRepository.findById(userId).get();
-		
-	}
-
-	
-	public PassportApplication addPassportApplication(PassportApplication application) {
-		
-		return applicationRepository.save(application);
-		
-	}
-
-	 
-	public void deletePassportApplication(int applicationNo) {
-		
-		userRepository.deleteById(applicationNo);
-	}
-
-	
-	public void updatePassportApplication(int userId, PassportApplication application) {
-		applicationRepository.save(application);
-		
-	}
-	
-	 
-	public PassportApplication viewPassportApplication(int applicationNo) {
-		
-		return applicationRepository.findById(applicationNo).get();
-	}
-
-	
-	public Helpdesk addHelpDeskQuery(Helpdesk helpDeskQuery) {
-	 
-		return helpdeskRepository.save(helpDeskQuery);
-		
-	}
-
-	
-	public void updateHelpDeskQuery(int userId, Helpdesk helpDeskQuery) {
-		
-		helpdeskRepository.save(helpDeskQuery);
-		
-	}
-
-
-	@Override
-	public void deletePassportApplication(PassportApplication application) {
-		// TODO Auto-generated method stub
-		applicationRepository.deleteById(application.getApplicationNo());
 		
 	}
 

@@ -9,20 +9,47 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.app.beans.Helpdesk;
-import com.app.beans.PassportApplication;
 import com.app.beans.User;
-import com.app.repository.HelpdeskRepository;
-import com.app.repository.PassportApplicationRepository;
 import com.app.repository.UserRepository;
 
 @Service
 @Transactional
-public class AdminServiceImpl implements IAdminService {
-	
+public class UserServiceImpl implements IUserService {
+
 	@Autowired
 	private UserRepository userRepository;
+	
+	public User addUser(User user) {
+		
+		return userRepository.save(user);
+		
+	}
 
+	
+	public void deleteUser(int userId) {
+		
+		userRepository.deleteById(userId);
+	}
+
+	
+	public void updateUser(int userId, User user) {
+		userRepository.save(user);
+		
+	}
+
+	
+	public User viewUser(int userId) {
+		return userRepository.findById(userId).get();
+		
+	}
+
+
+	@Override
+	public void deleteUser(User user) {
+		// TODO Auto-generated method stub
+		userRepository.deleteById(user.getUserId());
+	}
+	
 	@Override
 	public List<User> getAllUsers() {
 		ArrayList<User> list = new ArrayList<>();
@@ -32,5 +59,5 @@ public class AdminServiceImpl implements IAdminService {
 		}
 		return list;
 	}
-
+	
 }

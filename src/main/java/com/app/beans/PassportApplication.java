@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,10 +31,8 @@ public class PassportApplication {
 	private String employmentType;
 	private String educationalQualification;
 	@OneToOne(targetEntity = Address.class, cascade = CascadeType.ALL)
-	@JoinColumn(name = "add_fk", referencedColumnName = "applicationNo")
 	private Address address;
 	@OneToMany(targetEntity = Document.class, cascade = CascadeType.ALL)
-	@JoinColumn(name = "document_fk", referencedColumnName = "applicationNo")
 	private List<Document> documents;
 	private boolean applicationStatus;
 	private Date createdOn;

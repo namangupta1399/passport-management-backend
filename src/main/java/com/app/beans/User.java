@@ -8,9 +8,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "users")
@@ -19,26 +25,27 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int userId;
 	private String password;
-	private String userType;
+	private String userRole;
 	@Column(unique = true)
 	private String email;
+	@CreationTimestamp
 	private Date createdOn;
+	@UpdateTimestamp
 	private Date updatedOn;
 	
 	@OneToOne(targetEntity = PassportApplication.class, cascade = CascadeType.ALL)
-	@JoinColumn(name="passportApp_fk", referencedColumnName = "userId")
 	private PassportApplication passportApplication;
 	
 	public User() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public User(int userId, String password, String userType, String email, Date createdOn, Date updatedOn,
+	public User(int userId, String password, String userRole, String email, Date createdOn, Date updatedOn,
 			PassportApplication passportApplication) {
 		super();
 		this.userId = userId;
 		this.password = password;
-		this.userType = userType;
+		this.userRole = userRole;
 		this.email = email;
 		this.createdOn = createdOn;
 		this.updatedOn = updatedOn;
@@ -61,12 +68,12 @@ public class User {
 		this.password = password;
 	}
 
-	public String getUserType() {
-		return userType;
+	public String getuserRole() {
+		return userRole;
 	}
 
-	public void setUserType(String userType) {
-		this.userType = userType;
+	public void setuserRole(String userRole) {
+		this.userRole = userRole;
 	}
 
 	public String getEmail() {
@@ -103,7 +110,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", password=" + password + ", userType=" + userType + ", email=" + email
+		return "User [userId=" + userId + ", password=" + password + ", userRole=" + userRole + ", email=" + email
 				+ ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + ", passportApplication="
 				+ passportApplication + "]";
 	}
