@@ -1,5 +1,6 @@
 package com.app.beans;
 
+<<<<<<< HEAD
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -90,5 +91,4 @@ public class Document {
 	}
 	
 	
-
 }

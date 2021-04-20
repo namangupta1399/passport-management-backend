@@ -6,13 +6,14 @@ plugins {
 
 group = 'com.app'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+sourceCompatibility = '8'
 
 repositories {
 	mavenCentral()
 }
 
 dependencies {
+<<<<<<< HEAD
 	implementation 'org.springframework.boot:spring-boot-starter'
 	
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa
@@ -22,6 +23,13 @@ implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 implementation 'org.postgresql:postgresql'
 
 
+=======
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-web-services'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'org.postgresql:postgresql'
+>>>>>>> 156a8992b497df980874cdcc6e7fe1d41caa44d3
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
