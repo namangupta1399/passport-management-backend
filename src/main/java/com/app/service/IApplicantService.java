@@ -1,24 +1,28 @@
 package com.app.service;
 
+import com.app.beans.Helpdesk;
+import com.app.beans.PassportApplication;
+import com.app.beans.User;
+
 public interface IApplicantService {
 	
-	void addApplicant(Applicant applicant);
+	User addUser(User user);
 
-	void deleteApplicant(Applicant applicant);
+	void deleteUser(User user);
 
-	void updateApplicant(int applicantId, Applicant applicant);
+	void updateUser(int userId, User user);
 
-	Applicant viewApplicant(int applicantId);
+	User viewUser(int userId);
 	
-	void addPassportApplication(Application application);
+	PassportApplication addPassportApplication(PassportApplication application);
 	
-	void deletePassportApplication(Application application);
+	void deletePassportApplication(PassportApplication application);
 	
-	void updatePassportApplication(int applicantId, Application application);
+	void updatePassportApplication(int userId, PassportApplication application);
 	
-	Applicant viewPassportApplication(int applicantId);
+	PassportApplication viewPassportApplication(int userId);
 	
-	void addHelpDeskQuery(HelpDeskQuery helpDeskQuery);
+	Helpdesk addHelpDeskQuery(Helpdesk helpDeskQuery);
 	
-	void updateHelpDeskQuery(int applicantId, HelpDeskQuery helpDeskQuery);
+	void updateHelpDeskQuery(int applicantId, Helpdesk helpDeskQuery);
 }

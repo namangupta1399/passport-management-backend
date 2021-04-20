@@ -1,64 +1,101 @@
 package com.app.service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.app.beans.Helpdesk;
+import com.app.beans.PassportApplication;
+import com.app.beans.User;
+import com.app.repository.UserRepository;
+
+@Service
 public class ApplicantServiceImpl implements IApplicantService{
 
+	@Autowired
+	private UserRepository applicantRepository;
+	
+	@Autowired
+	private PassportApplicationRepository applicationRepository;
+	
+	@Autowired
+	private HelpDeskRepository helpdeskRepository;
+	
+
+	@Transactional
 	@Override
-	public void addApplicant(Applicant applicant) {
-		// TODO Auto-generated method stub
+	public User addUser(User user) {
+		
+		return applicantRepository.add(user);
 		
 	}
 
+	@Transactional
 	@Override
-	public void deleteApplicant(Applicant applicant) {
-		// TODO Auto-generated method stub
+	public void deleteUser(User userId) {
+		
+		applicantRepository.delete(userId);
+	}
+
+	@Transactional
+	@Override
+	public void updateUser(int userId, User user) {
+		applicantRepository.save(user);
 		
 	}
 
+	@Transactional
 	@Override
-	public void updateApplicant(int applicantId, Applicant applicant) {
-		// TODO Auto-generated method stub
+	public User viewUser(int userId) {
+		return applicantRepository.findById(userId).get();
 		
 	}
 
+	@Transactional
 	@Override
-	public Applicant viewApplicant(int applicantId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void addPassportApplication(Application application) {
-		// TODO Auto-generated method stub
+	public PassportApplication addPassportApplication(PassportApplication application) {
+		
+		return applicationRepository.add(application);
 		
 	}
 
+	@Transactional 
 	@Override
-	public void deletePassportApplication(Application application) {
-		// TODO Auto-generated method stub
+	public void deletePassportApplication(Application applicationNo) {
+		
+		applicantRepository.deleteById(applicationNo);
+	}
+
+	@Transactional 
+	@Override
+	public void updatePassportApplication(int userId, Application application) {
+		applicationRepository.save(application);
+		
+	}
+	
+	@Transactional 
+	@Override
+	public PassportApplication viewPassportApplication(int applicationNo) {
+		
+		return applicationRepository.get(applicationNo);
+	}
+
+	@Transactional
+	@Override
+	public Helpdesk addHelpDeskQuery(Helpdesk helpDeskQuery) {
+	 
+		return helpdeskRepository.add(helpDeskQuery);
 		
 	}
 
+	@Transactional
 	@Override
-	public void updatePassportApplication(int applicantId, Application application) {
-		// TODO Auto-generated method stub
+	public void updateHelpDeskQuery(int userId, Helpdesk helpDeskQuery) {
 		
-	}
-
-	@Override
-	public Applicant viewPassportApplication(int applicantId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void addHelpDeskQuery(HelpDeskQuery helpDeskQuery) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateHelpDeskQuery(int applicantId, HelpDeskQuery helpDeskQuery) {
-		// TODO Auto-generated method stub
+		return helpdeskRepository.save(helpDeskQuery);
 		
 	}
 
