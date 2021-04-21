@@ -138,11 +138,11 @@ public class PassportApplication {
 		this.maritalStatus = maritalStatus;
 	}
 
-	public boolean isIndian() {
+	public boolean getIsIndian() {
 		return isIndian;
 	}
 
-	public void setIndian(boolean isIndian) {
+	public void setIsIndian(boolean isIndian) {
 		this.isIndian = isIndian;
 	}
 
