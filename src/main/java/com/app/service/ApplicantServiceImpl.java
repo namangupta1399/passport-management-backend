@@ -52,7 +52,7 @@ public class ApplicantServiceImpl implements IApplicantService{
 	@Override
 	public void deleteUser(User user) {
 		// TODO Auto-generated method stub
-		applicationRepository.deleteById(user.getUserId());
+		applicationRepository.deleteById(user.getId());
 	}
 
 }

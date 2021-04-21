@@ -14,8 +14,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 @Entity
-@Table(name = "passportApplications")
 public class PassportApplication {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -35,8 +37,14 @@ public class PassportApplication {
 	@OneToMany(targetEntity = Document.class, cascade = CascadeType.ALL)
 	private List<Document> documents;
 	private boolean applicationStatus;
+	@CreationTimestamp
 	private Date createdOn;
+	@UpdateTimestamp
 	private Date updatedOn;
+	
+	@OneToOne(targetEntity = User.class, cascade = CascadeType.ALL)
+	@JoinColumn(nullable = false, unique = true)
+	private User user;
 	
 	public PassportApplication() {
 		// TODO Auto-generated constructor stub
@@ -45,7 +53,7 @@ public class PassportApplication {
 	public PassportApplication(int applicationNo, String firstName, String middleName, String lastName, String gender,
 			Date dateOfBirth, String placeOfBirth, String maritalStatus, boolean isIndian, String employmentType,
 			String educationalQualification, Address address, List<Document> documents, boolean applicationStatus,
-			Date createdOn, Date updatedOn) {
+			Date createdOn, Date updatedOn, User user) {
 		super();
 		this.applicationNo = applicationNo;
 		this.firstName = firstName;
@@ -63,6 +71,7 @@ public class PassportApplication {
 		this.applicationStatus = applicationStatus;
 		this.createdOn = createdOn;
 		this.updatedOn = updatedOn;
+		this.user = user;
 	}
 
 	public int getApplicationNo() {
@@ -193,6 +202,14 @@ public class PassportApplication {
 		this.updatedOn = updatedOn;
 	}
 
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	@Override
 	public String toString() {
 		return "PassportApplication [applicationNo=" + applicationNo + ", firstName=" + firstName + ", middleName="
@@ -200,7 +217,6 @@ public class PassportApplication {
 				+ ", placeOfBirth=" + placeOfBirth + ", maritalStatus=" + maritalStatus + ", isIndian=" + isIndian
 				+ ", employmentType=" + employmentType + ", educationalQualification=" + educationalQualification
 				+ ", address=" + address + ", documents=" + documents + ", applicationStatus=" + applicationStatus
-				+ ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + "]";
+				+ ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + ", user=" + user + "]";
 	}
-	
 }
