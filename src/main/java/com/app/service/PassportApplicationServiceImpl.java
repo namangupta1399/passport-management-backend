@@ -9,7 +9,11 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.app.beans.Address;
+import com.app.beans.Document;
 import com.app.beans.PassportApplication;
+import com.app.repository.AddressRepository;
+import com.app.repository.DocumentRepository;
 import com.app.repository.PassportApplicationRepository;
 
 @Service
@@ -18,6 +22,15 @@ public class PassportApplicationServiceImpl implements IPassportApplicationServi
 	
 	@Autowired
 	private PassportApplicationRepository applicationRepository;
+	
+	@Autowired
+	private AddressRepository addressRepository;
+	
+	@Autowired
+	private DocumentRepository docsRepository;
+	
+	@Autowired
+	private UserServiceImpl userService;
 	
 	@Override
 	public List<PassportApplication> getAllPassportApplications() {
@@ -30,6 +43,18 @@ public class PassportApplicationServiceImpl implements IPassportApplicationServi
 	}
 	
 public PassportApplication addPassportApplication(PassportApplication application) {
+		Address address = application.getAddress();
+		
+		application.setAddress(addressRepository.save(address));
+		
+		List<Document> docs = application.getDocuments();
+		List<Document> insertedDocs = new ArrayList<>();
+		
+		docs.forEach(doc -> insertedDocs.add(docsRepository.save(doc)));
+		
+		application.setDocuments(insertedDocs);
+		
+		application.setUser(userService.viewUser(application.getUser().getId()));
 		
 		return applicationRepository.save(application);
 		
