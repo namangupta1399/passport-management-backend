@@ -32,6 +32,9 @@ public class PassportApplicationServiceImpl implements IPassportApplicationServi
 	@Autowired
 	private UserServiceImpl userService;
 	
+	@Autowired
+	private PassportApplicationServiceImpl appService;
+	
 	@Override
 	public List<PassportApplication> getAllPassportApplications() {
 		ArrayList<PassportApplication> list = new ArrayList<>();
@@ -43,17 +46,17 @@ public class PassportApplicationServiceImpl implements IPassportApplicationServi
 	}
 	
 public PassportApplication addPassportApplication(PassportApplication application) {
+//		Storing address in db
 		Address address = application.getAddress();
-		
 		application.setAddress(addressRepository.save(address));
 		
+//		Storing docs in db
 		List<Document> docs = application.getDocuments();
 		List<Document> insertedDocs = new ArrayList<>();
-		
 		docs.forEach(doc -> insertedDocs.add(docsRepository.save(doc)));
-		
 		application.setDocuments(insertedDocs);
 		
+//		Fetching user from db
 		application.setUser(userService.viewUser(application.getUser().getId()));
 		
 		return applicationRepository.save(application);
@@ -83,5 +86,13 @@ public PassportApplication addPassportApplication(PassportApplication applicatio
 		// TODO Auto-generated method stub
 		applicationRepository.deleteById(application.getApplicationNo());
 		
+	}
+
+	@Override
+	public void updateApplicationStatus(boolean status, int appNo) {
+		PassportApplication app = appService.viewPassportApplication(appNo);
+		app.setApplicationStatus(status);
+		System.out.println(app);
+		applicationRepository.save(app);
 	}
 }
