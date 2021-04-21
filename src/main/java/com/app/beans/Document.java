@@ -2,15 +2,19 @@ package com.app.beans;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 
 @Entity
-@Table(name="documents")
 public class Document {
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE)
@@ -18,7 +22,9 @@ public class Document {
 	private String documentName;
 	private String documentValue;
 	private boolean isVerified;
+	@CreationTimestamp
 	private Date addedOn;
+	@UpdateTimestamp
 	private Date updatedOn;
 	
 	public Document() {

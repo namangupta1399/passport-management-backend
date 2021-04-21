@@ -59,8 +59,8 @@ public class ApplicantController {
 	  // Update user by id
 	  @PutMapping(path = "/user/update", consumes = "application/json", produces = "application/json")
 	  public ResponseEntity<User> updateUser(@RequestBody User user){ 
-		  userService.updateUser(user.getUserId(), user);
-		  return new ResponseEntity<User>(user, HttpStatus.OK);
+		  User updatedUser = userService.updateUser(user.getId(), user);
+		  return new ResponseEntity<User>(updatedUser, HttpStatus.OK);
 	  }
 	  
 	  // Create passport application

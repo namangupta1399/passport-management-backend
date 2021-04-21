@@ -71,7 +71,7 @@ public class AdminController {
 	  // Update user by id
 	  @PutMapping(path = "/update", consumes = "application/json", produces = "application/json")
 	  public ResponseEntity<User> updateUser(@RequestBody User user){ 
-		  userService.updateUser(user.getUserId(), user);
+		  userService.updateUser(user.getId(), user);
 		  return new ResponseEntity<User>(user, HttpStatus.OK);
 	  }
 	  

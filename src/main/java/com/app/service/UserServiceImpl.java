@@ -32,8 +32,8 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	
-	public void updateUser(int userId, User user) {
-		userRepository.save(user);
+	public User updateUser(int userId, User user) {
+		return userRepository.save(user);
 		
 	}
 
@@ -47,7 +47,7 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public void deleteUser(User user) {
 		// TODO Auto-generated method stub
-		userRepository.deleteById(user.getUserId());
+		userRepository.deleteById(user.getId());	
 	}
 	
 	@Override

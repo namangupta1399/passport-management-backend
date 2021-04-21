@@ -34,7 +34,7 @@ public class HelpdeskServiceImpl implements IHelpdeskService {
 	@Override
 	public List<Helpdesk> getAllHelpDesk() {
 		ArrayList<Helpdesk> list = new ArrayList<>();
-		Collection<Helpdesk> helpdeskList = helpdeskRepository.findAll();
+		Iterable<Helpdesk> helpdeskList = helpdeskRepository.findAll();
 		for (Helpdesk helpdesk : helpdeskList) {
 			list.add(helpdesk);
 		}

@@ -10,7 +10,7 @@ public interface IUserService {
 
 	void deleteUser(User user);
 
-	void updateUser(int userId, User user);
+	User updateUser(int userId, User user);
 
 	User viewUser(int userId);
 

@@ -23,7 +23,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private int userId;
+	private int id;
 	private String password;
 	private String userRole;
 	@Column(unique = true)
@@ -33,31 +33,26 @@ public class User {
 	@UpdateTimestamp
 	private Date updatedOn;
 	
-	@OneToOne(targetEntity = PassportApplication.class, cascade = CascadeType.ALL)
-	private PassportApplication passportApplication;
-	
 	public User() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public User(int userId, String password, String userRole, String email, Date createdOn, Date updatedOn,
-			PassportApplication passportApplication) {
+	public User(int id, String password, String userRole, String email, Date createdOn, Date updatedOn) {
 		super();
-		this.userId = userId;
+		this.id = id;
 		this.password = password;
 		this.userRole = userRole;
 		this.email = email;
 		this.createdOn = createdOn;
 		this.updatedOn = updatedOn;
-		this.passportApplication = passportApplication;
 	}
 
-	public int getUserId() {
-		return userId;
+	public int getId() {
+		return id;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getPassword() {
@@ -100,18 +95,9 @@ public class User {
 		this.updatedOn = updatedOn;
 	}
 
-	public PassportApplication getPassportApplication() {
-		return passportApplication;
-	}
-
-	public void setPassportApplication(PassportApplication passportApplication) {
-		this.passportApplication = passportApplication;
-	}
-
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", password=" + password + ", userRole=" + userRole + ", email=" + email
-				+ ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + ", passportApplication="
-				+ passportApplication + "]";
+		return "User [id=" + id + ", password=" + password + ", userRole=" + userRole + ", email=" + email
+				+ ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + "]";
 	}
 }
