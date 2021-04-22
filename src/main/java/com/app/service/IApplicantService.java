@@ -7,7 +7,7 @@ public interface IApplicantService {
 	
 	User addUser(User user);
 
-	void deleteUser(User user);
+	void deleteUser(int userId);
 
 	void updateUser(int userId, User user);
 

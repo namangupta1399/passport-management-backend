@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,8 @@ import com.app.repository.PassportApplicationRepository;
 @Service
 @Transactional
 public class PassportApplicationServiceImpl implements IPassportApplicationService {
+	
+	Logger logger = LoggerFactory.getLogger(PassportApplicationServiceImpl.class);
 	
 	@Autowired
 	private PassportApplicationRepository applicationRepository;
@@ -38,6 +42,10 @@ public class PassportApplicationServiceImpl implements IPassportApplicationServi
 	
 	
 	public PassportApplication addPassportApplication(PassportApplication application) {
+		
+		logger.info("addPassportApplication() called");
+		
+		
 //		Storing address in db
 		Address address = application.getAddress();
 		application.setAddress(addressRepository.save(address));
@@ -58,11 +66,16 @@ public class PassportApplicationServiceImpl implements IPassportApplicationServi
 	 
 	public void deletePassportApplication(int applicationNo) {
 		
+		logger.info("deletePassportApplication() called");
+		
 		applicationRepository.deleteById(applicationNo);
 	}
 
 	
 	public void updatePassportApplication(int userId, PassportApplication application) {
+		
+		logger.info("updatePassportApplication() called");
+		
 		applicationRepository.save(application);
 		
 	}
@@ -70,11 +83,16 @@ public class PassportApplicationServiceImpl implements IPassportApplicationServi
 	 
 	public PassportApplication viewPassportApplication(int appNo) {
 		
+		logger.info("viewPassportApplication() called");
+		
 		return applicationRepository.findById(appNo).get();
 	}
 	
 	@Override
 	public List<PassportApplication> getAllPassportApplications() {
+		
+		logger.info("getAllPassportApplications() called");
+		
 		ArrayList<PassportApplication> list = new ArrayList<>();
 		Collection<PassportApplication> passportApplicationList = applicationRepository.findAll();
 		for (PassportApplication passportApplication : passportApplicationList) {
@@ -85,6 +103,9 @@ public class PassportApplicationServiceImpl implements IPassportApplicationServi
 
 	@Override
 	public PassportApplication updateApplicationStatus(boolean status, int appNo) {
+		
+		logger.info("updateApplicationStatus() called");
+		
 		PassportApplication app = appService.viewPassportApplication(appNo);
 		app.setApplicationStatus(status);
 		return applicationRepository.save(app);
@@ -92,6 +113,9 @@ public class PassportApplicationServiceImpl implements IPassportApplicationServi
 
 	@Override
 	public ApplicationStatus getApplicationStatus(int appNo) {
+		
+		logger.info("getApplicationStatus() called");
+		
 		ApplicationStatus status = new ApplicationStatus(appNo, appService.viewPassportApplication(appNo).getApplicationStatus());
 		return status;
 	}
