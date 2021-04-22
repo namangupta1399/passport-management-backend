@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.beans.Helpdesk;
 import com.app.beans.PassportApplication;
 import com.app.beans.User;
-import com.app.service.ApplicantServiceImpl;
 import com.app.service.HelpdeskServiceImpl;
 import com.app.service.PassportApplicationServiceImpl;
 import com.app.service.UserServiceImpl;

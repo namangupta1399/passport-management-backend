@@ -5,10 +5,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.app.beans.Helpdesk;
-import com.app.beans.PassportApplication;
+
 import com.app.beans.User;
-import com.app.repository.HelpdeskRepository;
 import com.app.repository.PassportApplicationRepository;
 import com.app.repository.UserRepository;
 
