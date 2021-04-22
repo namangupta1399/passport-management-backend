@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.beans.ApplicationStatus;
 import com.app.beans.Document;
+import com.app.beans.DocumentStatus;
 import com.app.beans.Helpdesk;
 import com.app.beans.Passport;
 import com.app.beans.PassportApplication;
@@ -174,6 +175,16 @@ public class AdminController {
 				  return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			  }
 			  
+//			  Update document status
+			  @PutMapping(path = "/application/document/status/update/{docId}", produces = "application/json")
+			  public ResponseEntity<DocumentStatus> updateDocumentStatus(@PathVariable("docId") int docId, @RequestBody boolean status) {
+				  DocumentStatus docStatus = docService.updateDocumentStatus(docId, status);
+				  if(docStatus != null) {
+					  return new ResponseEntity<>(docStatus, HttpStatus.OK);
+				  }
+				  return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			  }
+			  
 //			  Issue new passport
 			  @PostMapping(path = "/passport/new/{appNo}", produces = "application/json")
 			  public ResponseEntity<Passport> issueNewPassport(@PathVariable("appNo") int appNo) {
@@ -182,6 +193,16 @@ public class AdminController {
 					  return new ResponseEntity<>(newPassport, HttpStatus.ACCEPTED);
 				  }
 				  return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			  }
+			  
+//			  Get passport details
+			  @GetMapping(path = "/passport/{passNo}", produces = "application/json")
+			  public ResponseEntity<Passport> getPassport(@PathVariable("passNo") String passNo) {
+				  Passport passport = passportService.getPassport(passNo);
+				  if(passport != null) {
+					  return new ResponseEntity<>(passport, HttpStatus.OK);
+				  }
+				  return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			  }
 }
 

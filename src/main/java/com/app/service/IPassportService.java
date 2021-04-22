@@ -9,7 +9,7 @@ public interface IPassportService {
 
 	public Passport issuePassport(int appNo);
 	
-	public Passport getPassport(int passId);
+	public Passport getPassport(String passNo);
 	
 	public List<Passport> getAllPassport();
 	

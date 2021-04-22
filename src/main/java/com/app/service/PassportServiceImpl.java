@@ -50,9 +50,9 @@ public class PassportServiceImpl implements IPassportService {
 	}
 
 	@Override
-	public Passport getPassport(int passId) {
+	public Passport getPassport(String passNo) {
 		// TODO Auto-generated method stub
-		return passRepository.findById(passId).get();
+		return passRepository.findByPassportNo(passNo);
 	}
 
 	@Override

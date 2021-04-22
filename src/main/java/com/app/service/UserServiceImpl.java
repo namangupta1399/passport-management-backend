@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.app.beans.User;
 import com.app.repository.UserRepository;
+import com.app.validation.UserValidation;
 
 @Service
 @Transactional
@@ -19,10 +20,12 @@ public class UserServiceImpl implements IUserService {
 	@Autowired
 	private UserRepository userRepository;
 	
+	@Autowired
+	private UserValidation userValidation;
+	
 	public User addUser(User user) {
-		
+		userValidation.validateUserFields(user);
 		return userRepository.save(user);
-		
 	}
 
 	
