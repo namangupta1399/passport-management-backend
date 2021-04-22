@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.beans.Address;
+import com.app.beans.ApplicationStatus;
 import com.app.beans.Document;
 import com.app.beans.PassportApplication;
 import com.app.repository.AddressRepository;
@@ -35,17 +36,8 @@ public class PassportApplicationServiceImpl implements IPassportApplicationServi
 	@Autowired
 	private PassportApplicationServiceImpl appService;
 	
-	@Override
-	public List<PassportApplication> getAllPassportApplications() {
-		ArrayList<PassportApplication> list = new ArrayList<>();
-		Collection<PassportApplication> passportApplicationList = applicationRepository.findAll();
-		for (PassportApplication passportApplication : passportApplicationList) {
-			list.add(passportApplication);
-		}
-		return list;
-	}
 	
-public PassportApplication addPassportApplication(PassportApplication application) {
+	public PassportApplication addPassportApplication(PassportApplication application) {
 //		Storing address in db
 		Address address = application.getAddress();
 		application.setAddress(addressRepository.save(address));
@@ -76,23 +68,31 @@ public PassportApplication addPassportApplication(PassportApplication applicatio
 	}
 	
 	 
-	public PassportApplication viewPassportApplication(int applicationNo) {
+	public PassportApplication viewPassportApplication(int appNo) {
 		
-		return applicationRepository.findById(applicationNo).get();
+		return applicationRepository.findById(appNo).get();
 	}
 	
 	@Override
-	public void deletePassportApplication(PassportApplication application) {
-		// TODO Auto-generated method stub
-		applicationRepository.deleteById(application.getApplicationNo());
-		
+	public List<PassportApplication> getAllPassportApplications() {
+		ArrayList<PassportApplication> list = new ArrayList<>();
+		Collection<PassportApplication> passportApplicationList = applicationRepository.findAll();
+		for (PassportApplication passportApplication : passportApplicationList) {
+			list.add(passportApplication);
+		}
+		return list;
 	}
 
 	@Override
-	public void updateApplicationStatus(boolean status, int appNo) {
+	public PassportApplication updateApplicationStatus(boolean status, int appNo) {
 		PassportApplication app = appService.viewPassportApplication(appNo);
 		app.setApplicationStatus(status);
-		System.out.println(app);
-		applicationRepository.save(app);
+		return applicationRepository.save(app);
+	}
+
+	@Override
+	public ApplicationStatus getApplicationStatus(int appNo) {
+		ApplicationStatus status = new ApplicationStatus(appNo, appService.viewPassportApplication(appNo).getApplicationStatus());
+		return status;
 	}
 }

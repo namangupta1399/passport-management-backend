@@ -17,12 +17,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.beans.ApplicationStatus;
+import com.app.beans.Document;
 import com.app.beans.Helpdesk;
+import com.app.beans.Passport;
 import com.app.beans.PassportApplication;
 import com.app.beans.User;
 import com.app.service.AdminServiceImpl;
+import com.app.service.DocumentServiceImpl;
 import com.app.service.HelpdeskServiceImpl;
 import com.app.service.PassportApplicationServiceImpl;
+import com.app.service.PassportServiceImpl;
 import com.app.service.UserServiceImpl;
 
 @RestController
@@ -40,6 +45,12 @@ public class AdminController {
 	
 	@Autowired
 	private HelpdeskServiceImpl helpdeskService;
+	
+	@Autowired
+	private DocumentServiceImpl docService;
+	
+	@Autowired
+	private PassportServiceImpl passportService;
 
 //	Get all users
 	@GetMapping(path = "/applicants", produces = "application/json")
@@ -141,18 +152,36 @@ public class AdminController {
 					  helpdeskService.deleteHelpDesk(queryId);
 					  return new ResponseEntity<>(HttpStatus.OK); }
 				  
-			  @PutMapping(path = "/application/status/update", consumes = "application/json")
-			  public ResponseEntity<PassportApplication> updateApplicationStatus(@RequestBody Payload payload) {
-				  applicationService.updateApplicationStatus(payload.status, payload.appNo);
-//				  if(app != null) {
-					  return new ResponseEntity<>(HttpStatus.OK);
-//				  }
-//				  return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			  @PutMapping(path = "/application/status/update/{appNo}", produces = "application/json")
+			  public ResponseEntity<PassportApplication> updateApplicationStatus(@PathVariable("appNo") int appNo, @RequestBody boolean status) {
+				  PassportApplication passApp = applicationService.viewPassportApplication(appNo);
+				  if(passApp != null) {
+					  applicationService.updateApplicationStatus(status, appNo);
+					  return new ResponseEntity<>(passApp, HttpStatus.OK);
+				  }
+				  return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			  }
-
+			  
+//			  getApplicationStatus				  
+			  @GetMapping(path = "/application/status/{appNo}", produces = "application/json")
+			  public ResponseEntity<ApplicationStatus> getApplicationStatus(@PathVariable("appNo") int appNo) {
+				  PassportApplication app = applicationService.viewPassportApplication(appNo);
+				  if(app != null) {
+					  ApplicationStatus status = applicationService.getApplicationStatus(appNo);
+					  
+					  return new ResponseEntity<>(status, HttpStatus.OK);
+				  }
+				  return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			  }
+			  
+//			  Issue new passport
+			  @PostMapping(path = "/passport/new/{appNo}", produces = "application/json")
+			  public ResponseEntity<Passport> issueNewPassport(@PathVariable("appNo") int appNo) {
+				  Passport newPassport = passportService.issuePassport(appNo);
+				  if(newPassport != null) {
+					  return new ResponseEntity<>(newPassport, HttpStatus.ACCEPTED);
+				  }
+				  return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			  }
 }
 
-class Payload {
-	int appNo;
-	boolean status;
-}
