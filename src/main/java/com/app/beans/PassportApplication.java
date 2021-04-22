@@ -176,7 +176,7 @@ public class PassportApplication {
 		this.documents = documents;
 	}
 
-	public boolean isApplicationStatus() {
+	public boolean getApplicationStatus() {
 		return applicationStatus;
 	}
 

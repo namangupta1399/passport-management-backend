@@ -3,22 +3,32 @@ package com.app.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.beans.ApplicationStatus;
+import com.app.beans.Document;
+import com.app.beans.DocumentStatus;
 import com.app.beans.Helpdesk;
+import com.app.beans.Passport;
 import com.app.beans.PassportApplication;
 import com.app.beans.User;
+import com.app.service.AdminServiceImpl;
+import com.app.service.DocumentServiceImpl;
 import com.app.service.HelpdeskServiceImpl;
 import com.app.service.PassportApplicationServiceImpl;
+import com.app.service.PassportServiceImpl;
 import com.app.service.UserServiceImpl;
 
 @RestController
@@ -36,6 +46,12 @@ public class AdminController {
 	
 	@Autowired
 	private HelpdeskServiceImpl helpdeskService;
+	
+	@Autowired
+	private DocumentServiceImpl docService;
+	
+	@Autowired
+	private PassportServiceImpl passportService;
 
 //	Get all users
 	@GetMapping(path = "/applicants", produces = "application/json")
@@ -132,9 +148,61 @@ public class AdminController {
 				  }
 				  
 				// Delete helpdesk query by id
-				  @DeleteMapping(path = "/helpdesk/delete/{id}", consumes = "application/json")
+				  @DeleteMapping(path = "/helpdesk/delete/{id}", consumes = "application/json", produces = "application/json")
 				  public ResponseEntity<Boolean> deleteHelpdeskQuery(@PathVariable("id") int queryId) { 
 					  helpdeskService.deleteHelpDesk(queryId);
 					  return new ResponseEntity<>(HttpStatus.OK); }
-
+				  
+			  @PutMapping(path = "/application/status/update/{appNo}", produces = "application/json")
+			  public ResponseEntity<PassportApplication> updateApplicationStatus(@PathVariable("appNo") int appNo, @RequestBody boolean status) {
+				  PassportApplication passApp = applicationService.viewPassportApplication(appNo);
+				  if(passApp != null) {
+					  applicationService.updateApplicationStatus(status, appNo);
+					  return new ResponseEntity<>(passApp, HttpStatus.OK);
+				  }
+				  return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			  }
+			  
+//			  getApplicationStatus				  
+			  @GetMapping(path = "/application/status/{appNo}", produces = "application/json")
+			  public ResponseEntity<ApplicationStatus> getApplicationStatus(@PathVariable("appNo") int appNo) {
+				  PassportApplication app = applicationService.viewPassportApplication(appNo);
+				  if(app != null) {
+					  ApplicationStatus status = applicationService.getApplicationStatus(appNo);
+					  
+					  return new ResponseEntity<>(status, HttpStatus.OK);
+				  }
+				  return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			  }
+			  
+//			  Update document status
+			  @PutMapping(path = "/application/document/status/update/{docId}", produces = "application/json")
+			  public ResponseEntity<DocumentStatus> updateDocumentStatus(@PathVariable("docId") int docId, @RequestBody boolean status) {
+				  DocumentStatus docStatus = docService.updateDocumentStatus(docId, status);
+				  if(docStatus != null) {
+					  return new ResponseEntity<>(docStatus, HttpStatus.OK);
+				  }
+				  return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			  }
+			  
+//			  Issue new passport
+			  @PostMapping(path = "/passport/new/{appNo}", produces = "application/json")
+			  public ResponseEntity<Passport> issueNewPassport(@PathVariable("appNo") int appNo) {
+				  Passport newPassport = passportService.issuePassport(appNo);
+				  if(newPassport != null) {
+					  return new ResponseEntity<>(newPassport, HttpStatus.ACCEPTED);
+				  }
+				  return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			  }
+			  
+//			  Get passport details
+			  @GetMapping(path = "/passport/{passNo}", produces = "application/json")
+			  public ResponseEntity<Passport> getPassport(@PathVariable("passNo") String passNo) {
+				  Passport passport = passportService.getPassport(passNo);
+				  if(passport != null) {
+					  return new ResponseEntity<>(passport, HttpStatus.OK);
+				  }
+				  return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			  }
 }
+

@@ -10,10 +10,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "users")
+@DynamicUpdate(true)
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
