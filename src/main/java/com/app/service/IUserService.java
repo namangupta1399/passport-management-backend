@@ -8,7 +8,7 @@ public interface IUserService {
 	
 	User addUser(User user);
 
-	void deleteUser(User user);
+	void deleteUser(int userId);
 
 	User updateUser(int userId, User user);
 

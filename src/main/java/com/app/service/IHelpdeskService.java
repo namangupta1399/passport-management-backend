@@ -15,6 +15,4 @@ public interface IHelpdeskService {
 	void updateHelpDeskQuery(Helpdesk helpDeskQuery);
 	
 	List<Helpdesk> getHelpdesk(int userId);
-	
-	void deleteHelpDesk(int queryId);
 }
