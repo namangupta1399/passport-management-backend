@@ -49,10 +49,9 @@ public class HelpdeskServiceImpl implements IHelpdeskService {
 
 	public void updateHelpDeskQuery(Helpdesk helpDeskQuery) {
 		logger.info("updateHelpDeskQuery() called");
-		
-		User user = userService.viewUser(helpDeskQuery.getUser().getId());
-		if(user != null) {			
-			Helpdesk query = getHelpDesk(helpDeskQuery.getHelpdeskId());
+
+		Helpdesk query = getHelpDesk(helpDeskQuery.getHelpdeskId());
+		if(query != null) {
 			helpdeskRepository.save(helpDeskQuery);
 		}
 	}
