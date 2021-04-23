@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.app.beans.Passport;
 import com.app.beans.PassportApplication;
+import com.app.exception.PassportNotFoundException;
 import com.app.repository.PassportRepository;
 
 @Service
@@ -52,7 +53,11 @@ public class PassportServiceImpl implements IPassportService {
 	@Override
 	public Passport getPassport(String passNo) {
 		// TODO Auto-generated method stub
-		return passRepository.findByPassportNo(passNo);
+		Passport passport = passRepository.findByPassportNo(passNo);
+		if(passport == null) {
+			throw new PassportNotFoundException("Passport not found with passport number: " + passNo);
+		}
+		return passport;
 	}
 
 	@Override

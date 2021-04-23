@@ -2,14 +2,21 @@ package com.app.beans;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 @Entity
-@Table(name="helpdesk")
 public class Helpdesk {
 
 	@Id
@@ -18,15 +25,22 @@ public class Helpdesk {
 	private String query;
 	private String solution;
 	private boolean isResolved;
+	@CreationTimestamp
 	private Date createdOn;
+	@UpdateTimestamp
 	private Date updatedOn;
+	
+	@ManyToOne(targetEntity = User.class, cascade = CascadeType.ALL)
+	@JoinColumn(nullable = false)
+	private User user;
 	
 	public Helpdesk() {
 		super();
 		
 	}
 
-	public Helpdesk(int helpdeskId, String query, String solution, boolean isResolved, Date createdOn, Date updatedOn) {
+	public Helpdesk(int helpdeskId, String query, String solution, boolean isResolved, Date createdOn, Date updatedOn,
+			User user) {
 		super();
 		this.helpdeskId = helpdeskId;
 		this.query = query;
@@ -34,6 +48,7 @@ public class Helpdesk {
 		this.isResolved = isResolved;
 		this.createdOn = createdOn;
 		this.updatedOn = updatedOn;
+		this.user = user;
 	}
 
 	public int getHelpdeskId() {
@@ -60,11 +75,11 @@ public class Helpdesk {
 		this.solution = solution;
 	}
 
-	public boolean isResolved() {
+	public boolean getIsResolved() {
 		return isResolved;
 	}
 
-	public void setResolved(boolean isResolved) {
+	public void setIsResolved(boolean isResolved) {
 		this.isResolved = isResolved;
 	}
 
@@ -84,10 +99,17 @@ public class Helpdesk {
 		this.updatedOn = updatedOn;
 	}
 
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	@Override
 	public String toString() {
 		return "Helpdesk [helpdeskId=" + helpdeskId + ", query=" + query + ", solution=" + solution + ", isResolved="
-				+ isResolved + ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + "]";
+				+ isResolved + ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + ", user=" + user + "]";
 	}
-	
 }
