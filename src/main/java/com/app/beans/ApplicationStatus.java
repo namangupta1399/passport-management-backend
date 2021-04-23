@@ -17,7 +17,7 @@ public class ApplicationStatus {
 	public void setAppNo(int appNo) {
 		this.appNo = appNo;
 	}
-	public boolean isStatus() {
+	public boolean getStatus() {
 		return status;
 	}
 	public void setStatus(boolean status) {

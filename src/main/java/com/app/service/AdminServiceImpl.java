@@ -6,25 +6,29 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.app.beans.Helpdesk;
-import com.app.beans.PassportApplication;
+
 import com.app.beans.User;
-import com.app.repository.HelpdeskRepository;
-import com.app.repository.PassportApplicationRepository;
 import com.app.repository.UserRepository;
 
 @Service
 @Transactional
 public class AdminServiceImpl implements IAdminService {
 	
+	Logger logger = LoggerFactory.getLogger(AdminServiceImpl.class);
+	
 	@Autowired
 	private UserRepository userRepository;
 
 	@Override
 	public List<User> getAllUsers() {
+		
+		logger.info("getAllUsers() called"); 
+		
 		ArrayList<User> list = new ArrayList<>();
 		Collection<User> userList = userRepository.findAll();
 		for (User user : userList) {

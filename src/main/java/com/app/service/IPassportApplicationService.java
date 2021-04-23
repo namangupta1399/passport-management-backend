@@ -15,6 +15,8 @@ public interface IPassportApplicationService {
 	
 	PassportApplication viewPassportApplication(int appNo);
 	
+	PassportApplication viewPassportApplicationByUserId(int userId);
+	
 	List<PassportApplication> getAllPassportApplications();
 	
 	PassportApplication updateApplicationStatus(boolean status, int appNo);
