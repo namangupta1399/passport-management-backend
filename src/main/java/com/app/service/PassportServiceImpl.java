@@ -1,12 +1,13 @@
 package com.app.service;
 
-import java.text.SimpleDateFormat;
+
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,8 @@ import com.app.repository.PassportRepository;
 @Transactional
 public class PassportServiceImpl implements IPassportService {
 	
+	Logger logger = LoggerFactory.getLogger(PassportServiceImpl.class);
+	
 	@Autowired
 	private PassportRepository passRepository;
 	
@@ -27,6 +30,9 @@ public class PassportServiceImpl implements IPassportService {
 
 	@Override
 	public Passport issuePassport(int appNo) {
+		
+		logger.info("issuePassport() called"); 
+		
 		// TODO Auto-generated method stub
 		PassportApplication application = appService.viewPassportApplication(appNo);
 		if(application != null) {
@@ -52,6 +58,9 @@ public class PassportServiceImpl implements IPassportService {
 
 	@Override
 	public Passport getPassport(String passNo) {
+		
+		logger.info("getPassport() called"); 
+		
 		// TODO Auto-generated method stub
 		Passport passport = passRepository.findByPassportNo(passNo);
 		if(passport == null) {
@@ -62,6 +71,9 @@ public class PassportServiceImpl implements IPassportService {
 
 	@Override
 	public List<Passport> getAllPassport() {
+		
+		logger.info("getAllPassport() called");
+		
 		// TODO Auto-generated method stub
 		return passRepository.findAll();
 	}
