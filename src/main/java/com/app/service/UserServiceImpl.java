@@ -41,7 +41,7 @@ public class UserServiceImpl implements IUserService {
 			throw new UserAlreadyExistException("User already exists!");
 		}
 		
-//		userValidation.validateUserFields(user);
+		userValidation.validateUserFields(user);
 		return userRepository.save(user);
 	}
 
@@ -65,6 +65,8 @@ public class UserServiceImpl implements IUserService {
 		if(viewUser(userId) == null) {
 			throw new UserNotFoundException("User not found!");
 		}		
+		
+		userValidation.validateUserFields(user);
 		return userRepository.save(user);
 		
 	}
@@ -79,17 +81,6 @@ public class UserServiceImpl implements IUserService {
 			throw new UserNotFoundException("User not found!!");
 		}
 		return user.get();		
-	}
-
-
-	@Override
-	public void deleteUser(User user) {
-		
-		String dropUser = "deleteUser()";
-		logger.info(dropUser + "called"); 
-		
-		// TODO Auto-generated method stub
-		userRepository.deleteById(user.getId());	
 	}
 	
 	@Override

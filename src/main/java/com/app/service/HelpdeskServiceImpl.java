@@ -16,6 +16,7 @@ import com.app.beans.User;
 import com.app.exception.HelpdeskQueryListEmptyException;
 import com.app.exception.HelpdeskQueryNotFoundException;
 import com.app.repository.HelpdeskRepository;
+import com.app.validation.HelpdeskValidation;
 
 @Service
 @Transactional
@@ -28,6 +29,9 @@ public class HelpdeskServiceImpl implements IHelpdeskService {
 	
 	@Autowired
 	private UserServiceImpl userService;
+	
+	@Autowired
+	private HelpdeskValidation queryValidation;
 	
 	public Helpdesk getHelpDesk(int helpdeskId) {
 		Optional<Helpdesk> query = helpdeskRepository.findById(helpdeskId);
@@ -43,6 +47,7 @@ public class HelpdeskServiceImpl implements IHelpdeskService {
 		 User user = userService.viewUser(helpDeskQuery.getUser().getId());
 		 helpDeskQuery.setUser(user);
 
+		 queryValidation.validateUserQuery(helpDeskQuery);
 		return helpdeskRepository.save(helpDeskQuery);
 		
 	}
@@ -52,6 +57,7 @@ public class HelpdeskServiceImpl implements IHelpdeskService {
 
 		Helpdesk query = getHelpDesk(helpDeskQuery.getHelpdeskId());
 		if(query != null) {
+			queryValidation.validateAdminResponse(helpDeskQuery);
 			helpdeskRepository.save(helpDeskQuery);
 		}
 	}
@@ -86,14 +92,5 @@ public class HelpdeskServiceImpl implements IHelpdeskService {
 			return queries;
 		}
 		return null;
-	}
-
-	@Override
-	public void deleteHelpDesk(int queryId) {
-		logger.info("deleteHelpDesk() called");
-
-//		helpdeskRepository.deleteByHelpdeskId(queryId);
-		helpdeskRepository.deleteById(queryId);
-		return;
 	}
 }

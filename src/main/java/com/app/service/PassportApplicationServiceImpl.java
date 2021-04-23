@@ -25,12 +25,15 @@ import com.app.exception.UserNotFoundException;
 import com.app.repository.AddressRepository;
 import com.app.repository.DocumentRepository;
 import com.app.repository.PassportApplicationRepository;
+import com.app.validation.PassportApplicationValidation;
 
 @Service
 @Transactional
 public class PassportApplicationServiceImpl implements IPassportApplicationService {
 
 	Logger logger = LoggerFactory.getLogger(PassportApplicationServiceImpl.class);
+	
+//	Repositories
 
 	@Autowired
 	private PassportApplicationRepository applicationRepository;
@@ -46,6 +49,10 @@ public class PassportApplicationServiceImpl implements IPassportApplicationServi
 
 	@Autowired
 	private PassportApplicationServiceImpl appService;
+	
+//	Validation
+	@Autowired
+	PassportApplicationValidation applicationValidation;
 
 	public PassportApplication addPassportApplication(PassportApplication application) {
 		logger.info("addPassportApplication() called");
@@ -71,6 +78,7 @@ public class PassportApplicationServiceImpl implements IPassportApplicationServi
 //		Fetching user from db
 		application.setUser(userService.viewUser(application.getUser().getId()));
 
+		applicationValidation.validateApplicationFields(application);
 		return applicationRepository.save(application);
 
 	}
