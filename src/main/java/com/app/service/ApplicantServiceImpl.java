@@ -1,5 +1,7 @@
 package com.app.service;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
@@ -56,8 +58,11 @@ public class ApplicantServiceImpl implements IApplicantService{
 		
 		logger.info("viewUser() called");
 		
-		return userRepository.findById(userId).get();
-		
+		Optional<User> user = userRepository.findById(userId);
+		if(user.isPresent()) {
+			return user.get();
+		}
+		return null;
 	}
 
 }

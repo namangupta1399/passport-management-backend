@@ -12,7 +12,7 @@ public interface IUserService {
 
 	User updateUser(int userId, User user);
 
-	User viewUser(int userId);
+	User getUser(int id);
 
 	public List<User> getAllUsers();
 }

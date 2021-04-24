@@ -33,7 +33,7 @@ public class UserValidation {
 	
 //	Password validation method (Atleast 1 digit, 1 lowercase and 1 uppercase alphabet, 1 special charater and min length 8 chars
 	private boolean validatePassword(String password) {
-		return validatePattern("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$", password);
+		return validatePattern("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", password);
 	}
 	
 //	Email validation method
@@ -43,6 +43,6 @@ public class UserValidation {
 	
 //	User role validation
 	private boolean validateUserRole(String role) {
-		return role.toLowerCase().equals("applicant") || role.toLowerCase().equals("admin"); 
+		return role.equalsIgnoreCase("applicant") || role.equalsIgnoreCase("admin"); 
 	}
 }

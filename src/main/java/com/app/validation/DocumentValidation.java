@@ -2,7 +2,6 @@ package com.app.validation;
 
 import java.util.regex.Pattern;
 
-import com.app.beans.Address;
 import com.app.beans.Document;
 import com.app.exception.PassportApplicationFieldException;
 

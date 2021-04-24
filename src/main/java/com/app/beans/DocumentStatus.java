@@ -3,10 +3,6 @@ package com.app.beans;
 public class DocumentStatus {
 	private int docId;
 	private boolean isVerified;
-	
-	public DocumentStatus() {
-		// TODO Auto-generated constructor stub
-	}
 
 	public DocumentStatus(int docId, boolean isVerified) {
 		super();

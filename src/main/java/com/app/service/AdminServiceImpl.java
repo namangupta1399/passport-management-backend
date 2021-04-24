@@ -24,6 +24,11 @@ public class AdminServiceImpl implements IAdminService {
 	@Autowired
 	private UserRepository userRepository;
 
+	/**
+	 *	methodName: getAllUsers()
+	 *	return type: List<User>
+	 * 	 	
+	 */
 	@Override
 	public List<User> getAllUsers() {
 		

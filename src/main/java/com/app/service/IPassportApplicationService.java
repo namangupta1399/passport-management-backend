@@ -11,7 +11,7 @@ public interface IPassportApplicationService {
 	
 	void deletePassportApplication(int appNo);
 	
-	void updatePassportApplication(int userId, PassportApplication application);
+	PassportApplication updatePassportApplication(int userId, PassportApplication application);
 	
 	PassportApplication viewPassportApplication(int appNo);
 	

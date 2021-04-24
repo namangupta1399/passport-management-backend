@@ -4,7 +4,6 @@ public class ApplicationStatus {
 	private int appNo;
 	private boolean status;
 	public ApplicationStatus() {
-		// TODO Auto-generated constructor stub
 	}
 	public ApplicationStatus(int appNo, boolean status) {
 		super();

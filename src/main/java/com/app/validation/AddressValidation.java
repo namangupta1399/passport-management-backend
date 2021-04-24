@@ -5,11 +5,7 @@ import java.util.regex.Pattern;
 import org.springframework.stereotype.Component;
 
 import com.app.beans.Address;
-import com.app.beans.User;
-import com.app.exception.EmailInvalidException;
 import com.app.exception.PassportApplicationFieldException;
-import com.app.exception.PasswordInvalidException;
-import com.app.exception.UserRoleInvalidException;
 
 @Component
 public class AddressValidation {
