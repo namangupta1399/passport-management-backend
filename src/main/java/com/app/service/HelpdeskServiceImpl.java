@@ -2,6 +2,7 @@ package com.app.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -11,7 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.beans.Helpdesk;
+import com.app.beans.User;
+import com.app.exception.HelpdeskQueryListEmptyException;
+import com.app.exception.HelpdeskQueryNotFoundException;
 import com.app.repository.HelpdeskRepository;
+import com.app.validation.HelpdeskValidation;
 
 @Service
 @Transactional
@@ -21,21 +26,40 @@ public class HelpdeskServiceImpl implements IHelpdeskService {
 	
 	@Autowired
 	private HelpdeskRepository helpdeskRepository;
+	
+	@Autowired
+	private UserServiceImpl userService;
+	
+	@Autowired
+	private HelpdeskValidation queryValidation;
+	
+	public Helpdesk getHelpDesk(int helpdeskId) {
+		Optional<Helpdesk> query = helpdeskRepository.findById(helpdeskId);
+		if(query.isPresent()) {
+			return query.get();
+		}
+		throw new HelpdeskQueryNotFoundException("Query not found!");
+	}
 
 	public Helpdesk addHelpDeskQuery(Helpdesk helpDeskQuery) {
-		
 		logger.info("addHelpDeskQuery() called");
-		 
+
+		 User user = userService.viewUser(helpDeskQuery.getUser().getId());
+		 helpDeskQuery.setUser(user);
+
+		 queryValidation.validateUserQuery(helpDeskQuery);
 		return helpdeskRepository.save(helpDeskQuery);
 		
 	}
 
-	public void updateHelpDeskQuery(int userId, Helpdesk helpDeskQuery) {
-		
+	public void updateHelpDeskQuery(Helpdesk helpDeskQuery) {
 		logger.info("updateHelpDeskQuery() called");
-		
-		helpdeskRepository.save(helpDeskQuery);
-		
+
+		Helpdesk query = getHelpDesk(helpDeskQuery.getHelpdeskId());
+		if(query != null) {
+			queryValidation.validateAdminResponse(helpDeskQuery);
+			helpdeskRepository.save(helpDeskQuery);
+		}
 	}
 	
 	@Override
@@ -44,7 +68,10 @@ public class HelpdeskServiceImpl implements IHelpdeskService {
 		logger.info("getAllHelpDesk() called");
 		
 		ArrayList<Helpdesk> list = new ArrayList<>();
-		Iterable<Helpdesk> helpdeskList = helpdeskRepository.findAll();
+		List<Helpdesk> helpdeskList = helpdeskRepository.findAll();
+		if(helpdeskList.size() <= 0) {
+			throw new HelpdeskQueryListEmptyException("No queries found!");
+		}
 		for (Helpdesk helpdesk : helpdeskList) {
 			list.add(helpdesk);
 		}
@@ -56,14 +83,14 @@ public class HelpdeskServiceImpl implements IHelpdeskService {
 		
 		logger.info("getHelpdesk() called");
 		// TODO Auto-generated method stub
+		User user = userService.viewUser(userId);
+		if(user != null) {
+			List<Helpdesk> queries = helpdeskRepository.findAllByUserId(userId);
+			if(queries.size() <= 0) {
+				throw new HelpdeskQueryListEmptyException("No queries found!");
+			}
+			return queries;
+		}
 		return null;
-	}
-
-	@Override
-	public void deleteHelpDesk(int userId) {
-		
-		logger.info("deleteHelpDesk() called");
-		// TODO Auto-generated method stub
-		return;
 	}
 }

@@ -121,7 +121,8 @@ public class ApplicantController {
 				  logger.info("deletePassportApplication() called"); 
 				  
 				  applicationService.deletePassportApplication(appId);
-				  return new ResponseEntity<>(HttpStatus.OK); }
+				  return new ResponseEntity<>(HttpStatus.OK);
+			  }
 	
 			// Create new helpdesk query
 			  @PostMapping(path = "/helpdesk/query/new", consumes = "application/json", produces = "application/json") 
@@ -131,20 +132,19 @@ public class ApplicantController {
 				  
 				  helpdeskService.addHelpDeskQuery(query); 
 				  return new ResponseEntity<>(query, HttpStatus.OK);
-			  }			  
+			  }
 			  
 //				Get all helpdesk queries by user id
 				@GetMapping(path = "/helpdesk/query/{userId}", produces = "application/json")
-					public ResponseEntity<List<Helpdesk>> getAllHelpdeskQueries(@PathVariable("userId") int userId) {
-					
+				public ResponseEntity<List<Helpdesk>> getAllHelpdeskQueries(@PathVariable("userId") int userId) {
 					logger.info("getHelpdesk() called"); 
 					
-						List<Helpdesk> queries = helpdeskService.getHelpdesk(userId);
-						if (queries.size() <= 0) {
-							return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-						}
-						return new ResponseEntity<>(queries, HttpStatus.OK);
+					List<Helpdesk> queries = helpdeskService.getHelpdesk(userId);
+					if (queries.size() <= 0) {
+						return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 					}
+					return new ResponseEntity<>(queries, HttpStatus.OK);
+				}
 				
 				// Update helpdesk query by id
 				  @PutMapping(path = "/helpdesk/update/{id}", consumes = "application/json", produces = "application/json")
@@ -152,42 +152,17 @@ public class ApplicantController {
 					  
 					  logger.info("updateHelpDeskQuery() called"); 
 					  
-					  helpdeskService.updateHelpDeskQuery(query.getHelpdeskId(), query);
+					  helpdeskService.updateHelpDeskQuery(query);
 					  return new ResponseEntity<>(query, HttpStatus.OK);
-				  }
-				  
-				// Delete helpdesk query by id
-				  @DeleteMapping(path = "/helpdesk/delete/{id}", consumes = "application/json")
-				  public ResponseEntity<Boolean> deleteHelpdeskQuery(@PathVariable("id") int queryId) { 
-					  
-					  logger.info("deleteHelpDesk() called"); 
-					  
-					  helpdeskService.deleteHelpDesk(queryId);
-					  return new ResponseEntity<>(HttpStatus.OK); }
-				  
-//				  Issue Passport
-//				  @PostMapping(params = "/passport/new", consumes = "application/json", produces = "application/json")
-//				  public ResponseEntity<Passport> issuePassport(@RequestBody Passport passport) {
-//					  Passport newPass = passService.issuePassport(passport);
-//					  if(newPass != null) {
-//						  return new ResponseEntity<>(newPass, HttpStatus.ACCEPTED);
-//					  }
-//					  return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//				  }
+				  }				  
 				  
 //				  getApplicationStatus				  
 				  @GetMapping(path = "/application/status/{appNo}", produces = "application/json")
 				  public ResponseEntity<ApplicationStatus> getApplicationStatus(@PathVariable("appNo") int appNo) {
-					  
 					  logger.info("viewPassportApplication() called \n getApplicationStatus() called"); 
 					  
-					  PassportApplication app = applicationService.viewPassportApplication(appNo);
-					  if(app != null) {
-						  ApplicationStatus status = applicationService.getApplicationStatus(appNo);
-						  
-						  return new ResponseEntity<>(status, HttpStatus.OK);
-					  }
-					  return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+					  ApplicationStatus status = applicationService.getApplicationStatus(appNo);
+					  return new ResponseEntity<>(status, HttpStatus.OK);
 				  }
 				  
 

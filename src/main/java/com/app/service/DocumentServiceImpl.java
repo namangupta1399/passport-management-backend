@@ -1,5 +1,7 @@
 package com.app.service;
 
+import java.util.List;
+import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.app.beans.Document;
 import com.app.beans.DocumentStatus;
+import com.app.exception.DocumentNotFoundException;
 import com.app.repository.DocumentRepository;
 
 @Service
@@ -22,14 +25,17 @@ public class DocumentServiceImpl implements IDocumentService {
 	
 	@Override
 	public DocumentStatus updateDocumentStatus(int docId, boolean status) {
-		
 		logger.info("updateDocumentStatus() called"); 
+
+		Optional<Document> doc = docRepository.findById(docId);
+		if(!doc.isPresent()) {
+			throw new DocumentNotFoundException("No document found!");
+		}
+		Document document = doc.get();
+		document.setIsVerified(status);
+		docRepository.save(document);
 		
-		Document doc = docRepository.findById(docId).get();
-		doc.setIsVerified(status);
-		docRepository.save(doc);
-		
-		DocumentStatus docStatus = new DocumentStatus(docId, doc.getIsVerified());
+		DocumentStatus docStatus = new DocumentStatus(docId, document.getIsVerified());
 		return docStatus;
 	}
 

@@ -15,6 +15,8 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.sun.istack.NotNull;
+
 @Entity
 public class PassportApplication {
 	@Id
@@ -41,7 +43,7 @@ public class PassportApplication {
 	private Date updatedOn;
 	
 	@OneToOne(targetEntity = User.class, cascade = CascadeType.ALL)
-	@JoinColumn(nullable = false, unique = true)
+	@NotNull
 	private User user;
 	
 	public PassportApplication() {
