@@ -44,7 +44,7 @@ public class HelpdeskServiceImpl implements IHelpdeskService {
 	public Helpdesk addHelpDeskQuery(Helpdesk helpDeskQuery) {
 		logger.info("addHelpDeskQuery() called");
 
-		 User user = userService.viewUser(helpDeskQuery.getUser().getId());
+		 User user = userService.getUser(helpDeskQuery.getUser().getId());
 		 helpDeskQuery.setUser(user);
 
 		 queryValidation.validateUserQuery(helpDeskQuery);
@@ -52,14 +52,15 @@ public class HelpdeskServiceImpl implements IHelpdeskService {
 		
 	}
 
-	public void updateHelpDeskQuery(Helpdesk helpDeskQuery) {
+	public Helpdesk updateHelpDeskQuery(Helpdesk helpDeskQuery) {
 		logger.info("updateHelpDeskQuery() called");
 
 		Helpdesk query = getHelpDesk(helpDeskQuery.getHelpdeskId());
 		if(query != null) {
 			queryValidation.validateAdminResponse(helpDeskQuery);
-			helpdeskRepository.save(helpDeskQuery);
+			return helpdeskRepository.save(helpDeskQuery);
 		}
+		return query;
 	}
 	
 	@Override
@@ -69,7 +70,7 @@ public class HelpdeskServiceImpl implements IHelpdeskService {
 		
 		ArrayList<Helpdesk> list = new ArrayList<>();
 		List<Helpdesk> helpdeskList = helpdeskRepository.findAll();
-		if(helpdeskList.size() <= 0) {
+		if(helpdeskList.isEmpty()) {
 			throw new HelpdeskQueryListEmptyException("No queries found!");
 		}
 		for (Helpdesk helpdesk : helpdeskList) {
@@ -79,18 +80,18 @@ public class HelpdeskServiceImpl implements IHelpdeskService {
 	}
 
 	@Override
-	public List<Helpdesk> getHelpdesk(int userId) {
+	public List<Helpdesk> getHelpdeskByUser(int userId) {
 		
 		logger.info("getHelpdesk() called");
-		// TODO Auto-generated method stub
-		User user = userService.viewUser(userId);
+
+		User user = userService.getUser(userId);
 		if(user != null) {
 			List<Helpdesk> queries = helpdeskRepository.findAllByUserId(userId);
-			if(queries.size() <= 0) {
+			if(queries.isEmpty()) {
 				throw new HelpdeskQueryListEmptyException("No queries found!");
 			}
 			return queries;
 		}
-		return null;
+		return new ArrayList<>();
 	}
 }

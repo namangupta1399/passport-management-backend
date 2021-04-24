@@ -23,7 +23,7 @@ public class PassportApplicationValidation {
 			throw new PassportApplicationFieldException("Gender field cannot be blank");
 		}
 //		Check date of birth
-		if(application.getDateOfBirth().equals(null)) {
+		if(null == application.getDateOfBirth()) {
 			throw new PassportApplicationFieldException("Application DOB cannot be blank");
 		}
 //		Check marital status
@@ -35,7 +35,7 @@ public class PassportApplicationValidation {
 		
 //		Validate documents
 		DocumentValidation docValidation = new DocumentValidation();
-		application.getDocuments().forEach(doc -> docValidation.validateDocumentFields(doc));
+		application.getDocuments().forEach(docValidation::validateDocumentFields);
 		
 		return true;
 	}
