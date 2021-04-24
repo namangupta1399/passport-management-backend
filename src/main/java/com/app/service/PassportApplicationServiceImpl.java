@@ -10,8 +10,6 @@ import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.app.beans.Address;
@@ -57,7 +55,7 @@ public class PassportApplicationServiceImpl implements IPassportApplicationServi
 	public PassportApplication addPassportApplication(PassportApplication application) {
 		logger.info("addPassportApplication() called");
 
-		if (userService.viewUser(application.getUser().getId()) == null) {
+		if (userService.getUser(application.getUser().getId()) == null) {
 			throw new UserNotFoundException("User not found!");
 		}
 
@@ -76,7 +74,7 @@ public class PassportApplicationServiceImpl implements IPassportApplicationServi
 		application.setDocuments(insertedDocs);
 
 //		Fetching user from db
-		application.setUser(userService.viewUser(application.getUser().getId()));
+		application.setUser(userService.getUser(application.getUser().getId()));
 
 		applicationValidation.validateApplicationFields(application);
 		return applicationRepository.save(application);
@@ -87,20 +85,19 @@ public class PassportApplicationServiceImpl implements IPassportApplicationServi
 		logger.info("deletePassportApplication() called");
 
 		PassportApplication app = viewPassportApplication(applicationNo);
-		if (app == null) {
-			throw new PassportApplicationNotFoundException("Passport Application not found!");
+		if (app != null) {
+			applicationRepository.deleteByApNo(applicationNo);
 		}
-		applicationRepository.deleteByApNo(applicationNo);
 	}
 
-	public void updatePassportApplication(int userId, PassportApplication application) {
+	public PassportApplication updatePassportApplication(int userId, PassportApplication application) {
 		logger.info("updatePassportApplication() called");
 
 		PassportApplication app = viewPassportApplication(application.getApplicationNo());
-		if (app == null) {
-			throw new PassportApplicationNotFoundException("Passport Application not found!");
+		if (app != null) {
+			return applicationRepository.save(application);
 		}
-		applicationRepository.save(application);
+		return app;
 	}
 
 	public PassportApplication viewPassportApplication(int appNo) {
@@ -127,7 +124,7 @@ public class PassportApplicationServiceImpl implements IPassportApplicationServi
 
 		ArrayList<PassportApplication> list = new ArrayList<>();
 		Collection<PassportApplication> passportApplicationList = applicationRepository.findAll();
-		if (passportApplicationList.size() <= 0) {
+		if (passportApplicationList.isEmpty()) {
 			throw new PassportApplicationListEmptyException("No application found!");
 		}
 		for (PassportApplication passportApplication : passportApplicationList) {
@@ -154,8 +151,7 @@ public class PassportApplicationServiceImpl implements IPassportApplicationServi
 		
 		PassportApplication app = viewPassportApplication(appNo);
 		if(app != null) {
-			ApplicationStatus status = new ApplicationStatus(appNo, appService.viewPassportApplication(appNo).getApplicationStatus());
-			return status;  
+			return new ApplicationStatus(appNo, appService.viewPassportApplication(appNo).getApplicationStatus());  
 		}
 		throw new PassportApplicationNotFoundException("Passport Application does not exist!");
 	}

@@ -1,6 +1,5 @@
 package com.app.service;
 
-import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 
@@ -35,8 +34,7 @@ public class DocumentServiceImpl implements IDocumentService {
 		document.setIsVerified(status);
 		docRepository.save(document);
 		
-		DocumentStatus docStatus = new DocumentStatus(docId, document.getIsVerified());
-		return docStatus;
+		return new DocumentStatus(docId, document.getIsVerified());
 	}
 
 }

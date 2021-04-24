@@ -2,7 +2,7 @@ package com.app.exception;
 
 public class EmailInvalidException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
-	private String message;
+	private final String message;
 	
 	public EmailInvalidException(String message)
 	{

@@ -2,6 +2,7 @@ package com.app.controller;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.beans.ApplicationStatus;
 import com.app.beans.DocumentStatus;
 import com.app.beans.Helpdesk;
+import com.app.beans.HelpdeskDto;
 import com.app.beans.Passport;
 import com.app.beans.PassportApplication;
+import com.app.beans.PassportApplicationDto;
 import com.app.beans.User;
+import com.app.beans.UserDto;
 import com.app.service.AdminServiceImpl;
 import com.app.service.DocumentServiceImpl;
 import com.app.service.HelpdeskServiceImpl;
@@ -52,6 +56,9 @@ public class AdminController {
 
 	@Autowired
 	private PassportServiceImpl passportService;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 
 //	Get all users
 	@GetMapping(path = "/applicants", produces = "application/json")
@@ -64,19 +71,19 @@ public class AdminController {
 
 	// Create new user
 	@PostMapping(path = "/user/new", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<User> createUser(@RequestBody User user) {
+	public ResponseEntity<UserDto> createUser(@RequestBody UserDto user) {
 		logger.info("addUser() called");
 
-		User newUser = userService.addUser(user);
-		return new ResponseEntity<User>(newUser, HttpStatus.OK);
+		User newUser = userService.addUser(modelMapper.map(user, User.class));
+		return new ResponseEntity<>(modelMapper.map(newUser, UserDto.class), HttpStatus.OK);
 	}
 
 	// Get user by userId
 	@GetMapping(path = "/user/{id}", consumes = "application/json")
 	public ResponseEntity<User> getUser(@PathVariable("id") int userId) {
 		logger.info("viewUser() called");
-		User user = userService.viewUser(userId);
-		return new ResponseEntity<User>(user, HttpStatus.OK);
+		User user = userService.getUser(userId);
+		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 
 	// Delete user by id
@@ -89,10 +96,10 @@ public class AdminController {
 
 	// Update user by id
 	@PutMapping(path = "/user/update", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<User> updateUser(@RequestBody User user) {
+	public ResponseEntity<UserDto> updateUser(@RequestBody UserDto user) {
 		logger.info("updateUser() called");
-		userService.updateUser(user.getId(), user);
-		return new ResponseEntity<User>(user, HttpStatus.OK);
+		User updatedUser = userService.updateUser(user.getId(), modelMapper.map(user, User.class));
+		return new ResponseEntity<>(modelMapper.map(updatedUser, UserDto.class), HttpStatus.OK);
 	}
 
 	// Get passport app by id
@@ -113,10 +120,10 @@ public class AdminController {
 
 	// Update passport application by id
 	@PutMapping(path = "/application/update", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<PassportApplication> updatePassportApplication(@RequestBody PassportApplication app) {
+	public ResponseEntity<PassportApplicationDto> updatePassportApplication(@RequestBody PassportApplicationDto app) {
 		logger.info("updatePassportApplication() called");
-		applicationService.updatePassportApplication(app.getApplicationNo(), app);
-		return new ResponseEntity<>(app, HttpStatus.OK);
+		PassportApplication updatedApplication = applicationService.updatePassportApplication(app.getApplicationNo(), modelMapper.map(app, PassportApplication.class));
+		return new ResponseEntity<>(modelMapper.map(updatedApplication, PassportApplicationDto.class), HttpStatus.OK);
 	}
 
 	// Delete passport application by id
@@ -140,16 +147,16 @@ public class AdminController {
 	@GetMapping(path = "/helpdesk/{userId}", produces = "application/json")
 	public ResponseEntity<List<Helpdesk>> getAllHelpdeskQueries(@PathVariable("userId") int userId) {
 		logger.info("getHelpdesk() called");
-		List<Helpdesk> queries = helpdeskService.getHelpdesk(userId);
+		List<Helpdesk> queries = helpdeskService.getHelpdeskByUser(userId);
 		return new ResponseEntity<>(queries, HttpStatus.OK);
 	}
 
 	// Update helpdesk query by id
 	@PutMapping(path = "/helpdesk/update", consumes = "application/json", produces = "application/json")
-	public ResponseEntity<Helpdesk> updateHelpdeskQuery(@RequestBody Helpdesk query) {
+	public ResponseEntity<HelpdeskDto> updateHelpdeskQuery(@RequestBody HelpdeskDto query) {
 		logger.info("updateHelpDeskQuery() called");
-		helpdeskService.updateHelpDeskQuery(query);
-		return new ResponseEntity<>(query, HttpStatus.OK);
+		Helpdesk updatedQuery = helpdeskService.updateHelpDeskQuery(modelMapper.map(query, Helpdesk.class));
+		return new ResponseEntity<>(modelMapper.map(updatedQuery, HelpdeskDto.class), HttpStatus.OK);
 	}
 
 	// Update application status

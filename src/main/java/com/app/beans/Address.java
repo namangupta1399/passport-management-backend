@@ -18,7 +18,6 @@ public class Address {
 	private String mobileNo;
 		
 	public Address() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Address(int id, String houseNo, String street, String state, String district, String pinCode,

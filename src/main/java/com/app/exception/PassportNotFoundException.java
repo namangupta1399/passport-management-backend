@@ -2,7 +2,7 @@ package com.app.exception;
 
 public class PassportNotFoundException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
-	private String message;
+	private final String message;
 	
 	public PassportNotFoundException(String message)
 	{

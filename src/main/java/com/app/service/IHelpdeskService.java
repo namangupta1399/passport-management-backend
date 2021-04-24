@@ -6,13 +6,13 @@ import com.app.beans.Helpdesk;
 
 public interface IHelpdeskService {
 	
-	public Helpdesk getHelpDesk(int helpdeskId);
+	Helpdesk getHelpDesk(int helpdeskId);
 	
-	public List<Helpdesk> getAllHelpDesk();
+	List<Helpdesk> getAllHelpDesk();
 	
 	Helpdesk addHelpDeskQuery(Helpdesk helpDeskQuery);
 	
-	void updateHelpDeskQuery(Helpdesk helpDeskQuery);
+	Helpdesk updateHelpDeskQuery(Helpdesk helpDeskQuery);
 	
-	List<Helpdesk> getHelpdesk(int userId);
+	List<Helpdesk> getHelpdeskByUser(int userId);
 }

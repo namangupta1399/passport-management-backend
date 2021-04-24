@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import com.app.beans.User;
 import com.app.exception.UserAlreadyExistException;
-import com.app.exception.UserListEmptyException;
 import com.app.exception.UserNotFoundException;
 import com.app.repository.UserRepository;
 import com.app.validation.UserValidation;
@@ -34,8 +33,7 @@ public class UserServiceImpl implements IUserService {
 	
 	public User addUser(User user) {
 
-		String addUser = "addUser()";
-		logger.info(addUser + "called"); 
+		logger.info("addUser() called"); 
 		
 		if(userRepository.findByEmail(user.getEmail()) != null) {
 			throw new UserAlreadyExistException("User already exists!");
@@ -47,10 +45,9 @@ public class UserServiceImpl implements IUserService {
 
 	
 	public void deleteUser(int userId) {
-		String deleteUser = "deleteUser()";
-		logger.info(deleteUser + "called"); 
+		logger.info("deleteUser() called"); 
 		
-		if(viewUser(userId) != null) {			
+		if(getUser(userId) != null) {			
 			userRepository.deleteById(userId);
 			return;
 		}
@@ -59,10 +56,9 @@ public class UserServiceImpl implements IUserService {
 
 	
 	public User updateUser(int userId, User user) {
-		String updateUser = "updateUser()";
-		logger.info(updateUser + "called"); 
+		logger.info("updateUser() called"); 
 		
-		if(viewUser(userId) == null) {
+		if(getUser(userId) == null) {
 			throw new UserNotFoundException("User not found!");
 		}		
 		
@@ -72,9 +68,8 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	
-	public User viewUser(int userId) {
-		String viewUser = "viewUser()";
-		logger.info(viewUser + "called");		
+	public User getUser(int userId) {
+		logger.info("viewUser() called");		
 		
 		Optional<User> user = userRepository.findById(userId);
 		if(!user.isPresent()) {
@@ -86,16 +81,11 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public List<User> getAllUsers() {
 		
-		String getAllUser = "getAllUser()";
-		logger.info(getAllUser + "called"); 
+		logger.info("getAllUser()called"); 
 		
 		ArrayList<User> list = new ArrayList<>();
 		Collection<User> userList = userRepository.findAllApplicant();
-		if(userList.size() <= 0) {
-			throw new UserListEmptyException("No user found!");
-		}
 		for (User user : userList) {
-//			user.setPassword(null);
 			list.add(user);
 		}
 		return list;
