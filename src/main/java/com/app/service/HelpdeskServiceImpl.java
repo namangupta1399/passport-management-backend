@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.app.beans.Helpdesk;
 import com.app.beans.User;
+import com.app.exception.DocumentNotFoundException;
 import com.app.exception.HelpdeskQueryListEmptyException;
 import com.app.exception.HelpdeskQueryNotFoundException;
 import com.app.repository.HelpdeskRepository;
@@ -33,6 +34,12 @@ public class HelpdeskServiceImpl implements IHelpdeskService {
 	@Autowired
 	private HelpdeskValidation queryValidation;
 	
+	/**
+	 * The method is used to get helpdesk query using id
+	 * @param helpdesk id
+	 * @return Helpdesk
+	 * @throws HelpdeskQueryNotFoundException
+	 */
 	public Helpdesk getHelpDesk(int helpdeskId) {
 		Optional<Helpdesk> query = helpdeskRepository.findById(helpdeskId);
 		if(query.isPresent()) {
@@ -41,6 +48,11 @@ public class HelpdeskServiceImpl implements IHelpdeskService {
 		throw new HelpdeskQueryNotFoundException("Query not found!");
 	}
 
+	/**
+	 * The method is used to create helpdesk query
+	 * @param Helpdesk query to be inserted
+	 * @return the new helpdesk query object
+	 */
 	public Helpdesk addHelpDeskQuery(Helpdesk helpDeskQuery) {
 		logger.info("addHelpDeskQuery() called");
 
@@ -52,6 +64,12 @@ public class HelpdeskServiceImpl implements IHelpdeskService {
 		
 	}
 
+	/**
+	 * The method is used to get update helpdesk query - used in admin controller to update solution and query status
+	 * @param Helpdesk query object - updated
+	 * @return updated Helpdesk object
+	 * @throws HelpdeskQueryNotFoundException
+	 */
 	public Helpdesk updateHelpDeskQuery(Helpdesk helpDeskQuery) {
 		logger.info("updateHelpDeskQuery() called");
 
@@ -63,7 +81,12 @@ public class HelpdeskServiceImpl implements IHelpdeskService {
 		return query;
 	}
 	
-	@Override
+	/**
+	 * The method is used to get all helpdesk queries - used in admin controller to get all user queries
+	 * @param nothing
+	 * @return List of all helpdesk queries
+	 * @throws HelpdeskQueryListEmptyException
+	 */
 	public List<Helpdesk> getAllHelpDesk() {
 		
 		logger.info("getAllHelpDesk() called");
@@ -79,7 +102,12 @@ public class HelpdeskServiceImpl implements IHelpdeskService {
 		return list;
 	}
 
-	@Override
+	/**
+	 * The method is used to get all helpdesk queries of a specific user
+	 * @param user id to get helpdesk queries of a specific user
+	 * @return List of helpdesk queries
+	 * @throws HelpdeskQueryListEmptyException
+	 */
 	public List<Helpdesk> getHelpdeskByUser(int userId) {
 		
 		logger.info("getHelpdesk() called");

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import com.app.beans.Document;
 import com.app.beans.DocumentStatus;
 import com.app.exception.DocumentNotFoundException;
+import com.app.exception.PassportApplicationNotFoundException;
+import com.app.exception.UserListEmptyException;
 import com.app.repository.DocumentRepository;
 
 @Service
@@ -22,7 +24,13 @@ public class DocumentServiceImpl implements IDocumentService {
 	@Autowired
 	private DocumentRepository docRepository;
 	
-	@Override
+	/**
+	 * The method is used to update document status
+	 * @param document id to find the document to be updated
+	 * @param status The updated application status
+	 * @return DocumentStatus
+	 * @throws DocumentNotFoundException
+	 */
 	public DocumentStatus updateDocumentStatus(int docId, boolean status) {
 		logger.info("updateDocumentStatus() called"); 
 

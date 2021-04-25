@@ -15,6 +15,8 @@ import com.app.beans.Passport;
 import com.app.beans.PassportApplication;
 import com.app.exception.PassportAlreadyIssuedException;
 import com.app.exception.PassportApplicationFieldException;
+import com.app.exception.PassportApplicationNotFoundException;
+import com.app.exception.PassportListEmptyException;
 import com.app.exception.PassportNotFoundException;
 import com.app.repository.PassportRepository;
 
@@ -30,7 +32,13 @@ public class PassportServiceImpl implements IPassportService {
 	@Autowired
 	private PassportApplicationServiceImpl appService;
 
-	@Override
+	/**
+	 * The method is used to issue a new passport
+	 * @param application number
+	 * @return new issued passport
+	 * @throws PassportAlreadyIssuedException - if passport already exists
+	 * @throws PassportApplicationFieldException - if application is not verified
+	 */
 	public Passport issuePassport(int appNo) {
 
 		logger.info("issuePassport() called");
@@ -39,7 +47,7 @@ public class PassportServiceImpl implements IPassportService {
 		if (checkPassport != null) {
 			throw new PassportAlreadyIssuedException("Passport already issued: " + checkPassport.getPassportNo());
 		}
-		PassportApplication application = appService.viewPassportApplication(appNo);
+		PassportApplication application = appService.getPassportApplication(appNo);
 		if (application.getApplicationStatus()) {
 
 			Passport newPassport = new Passport();
@@ -63,7 +71,12 @@ public class PassportServiceImpl implements IPassportService {
 		return null;
 	}
 
-	@Override
+	/**
+	 * The method is used to get passport details
+	 * @param passport number
+	 * @return Passport
+	 * @throws PassportNotFoundException - if the passport no. is invalid 
+	 */
 	public Passport getPassport(String passNo) {
 
 		logger.info("getPassport() called");
@@ -75,12 +88,20 @@ public class PassportServiceImpl implements IPassportService {
 		return passport;
 	}
 
-	@Override
+	/**
+	 * The method is used to get list of all passports
+	 * @param nothing
+	 * @return List of passport
+	 * @throws PassportListEmptyException - if there is no passport issed 
+	 */
 	public List<Passport> getAllPassport() {
 
 		logger.info("getAllPassport() called");
-
-		return passRepository.findAll();
+		List<Passport> passports = passRepository.findAll();
+		if(passports.isEmpty()) {
+			throw new PassportListEmptyException("No passport found!");
+		}
+		return passports;
 	}
 
 }

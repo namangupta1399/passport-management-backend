@@ -13,6 +13,8 @@ public interface IUserService {
 	User updateUser(int userId, User user);
 
 	User getUser(int id);
+	
+	User getUserByEmail(String email);
 
 	public List<User> getAllUsers();
 }

@@ -11,11 +11,11 @@ public interface IPassportApplicationService {
 	
 	void deletePassportApplication(int appNo);
 	
-	PassportApplication updatePassportApplication(int userId, PassportApplication application);
+	PassportApplication updatePassportApplication(PassportApplication application);
 	
-	PassportApplication viewPassportApplication(int appNo);
+	PassportApplication getPassportApplication(int appNo);
 	
-	PassportApplication viewPassportApplicationByUserId(int userId);
+	PassportApplication getPassportApplicationByUserId(int userId);
 	
 	List<PassportApplication> getAllPassportApplications();
 	

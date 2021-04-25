@@ -52,6 +52,13 @@ public class PassportApplicationServiceImpl implements IPassportApplicationServi
 	@Autowired
 	PassportApplicationValidation applicationValidation;
 
+	/**
+	 * The method is used to create new passport application
+	 * @param passport application to be inserted
+	 * @return passport application
+	 * @throws UserNotFoundException to check if user is valid
+	 * @throws PassportApplicationAlreadyExists to check if the application already exists
+	 */
 	public PassportApplication addPassportApplication(PassportApplication application) {
 		logger.info("addPassportApplication() called");
 
@@ -59,7 +66,7 @@ public class PassportApplicationServiceImpl implements IPassportApplicationServi
 			throw new UserNotFoundException("User not found!");
 		}
 
-		if (viewPassportApplicationByUserId(application.getUser().getId()) != null) {
+		if (getPassportApplicationByUserId(application.getUser().getId()) != null) {
 			throw new PassportApplicationAlreadyExists("Application exists");
 		}
 
@@ -81,26 +88,41 @@ public class PassportApplicationServiceImpl implements IPassportApplicationServi
 
 	}
 
+	/**
+	 * The method is used to delete passport application
+	 * @param application id to find and delete id
+	 * @return nothing
+	 */
 	public void deletePassportApplication(int applicationNo) {
 		logger.info("deletePassportApplication() called");
 
-		PassportApplication app = viewPassportApplication(applicationNo);
+		PassportApplication app = getPassportApplication(applicationNo);
 		if (app != null) {
 			applicationRepository.deleteByApNo(applicationNo);
 		}
 	}
 
-	public PassportApplication updatePassportApplication(int userId, PassportApplication application) {
+	/**
+	 * The method is used to update a passport application
+	 * @param application is the updated application 
+	 * @return updated application
+	 */
+	public PassportApplication updatePassportApplication(PassportApplication application) {
 		logger.info("updatePassportApplication() called");
 
-		PassportApplication app = viewPassportApplication(application.getApplicationNo());
+		PassportApplication app = getPassportApplication(application.getApplicationNo());
 		if (app != null) {
 			return applicationRepository.save(application);
 		}
 		return app;
 	}
 
-	public PassportApplication viewPassportApplication(int appNo) {
+	/**
+	 * The method is used to get passport application
+	 * @param application no to find the application
+	 * @return passport application
+	 */
+	public PassportApplication getPassportApplication(int appNo) {
 		logger.info("viewPassportApplication() called");
 		Optional<PassportApplication> app = applicationRepository.findById(appNo);
 
@@ -110,14 +132,24 @@ public class PassportApplicationServiceImpl implements IPassportApplicationServi
 		return app.get();
 	}
 
-	public PassportApplication viewPassportApplicationByUserId(int userId) {
+	/**
+	 * The method is used to get a passport application
+	 * @param user id to get application
+	 * @return passport application
+	 */
+	public PassportApplication getPassportApplicationByUserId(int userId) {
 		logger.info("viewPassportApplicationByUserId() called");
 
 		return applicationRepository.findByUserId(userId);
 
 	}
 
-	@Override
+	/**
+	 * The method is used to get all passport applications
+	 * @param nothing
+	 * @return List<PassportApplication>
+	 * @throws PassportApplicationListEmptyException
+	 */
 	public List<PassportApplication> getAllPassportApplications() {
 
 		logger.info("getAllPassportApplications() called");
@@ -133,11 +165,18 @@ public class PassportApplicationServiceImpl implements IPassportApplicationServi
 		return list;
 	}
 
+	/**
+	 * The method is used to update a passport application
+	 * @param updated status
+	 * @param application no
+	 * @return updated application
+	 * @throws PassportApplicationNotFoundException
+	 */
 	@Override
 	public PassportApplication updateApplicationStatus(boolean status, int appNo) {
 		logger.info("updateApplicationStatus() called");
 		
-		PassportApplication app = viewPassportApplication(appNo);
+		PassportApplication app = getPassportApplication(appNo);
 		if (app != null) {
 			app.setApplicationStatus(status);
 			return applicationRepository.save(app);
@@ -145,13 +184,19 @@ public class PassportApplicationServiceImpl implements IPassportApplicationServi
 		throw new PassportApplicationNotFoundException("Passport application not found!");
 	}
 
+	/**
+	 * The method is used to get application status
+	 * @param application no to get application status
+	 * @return ApplicationStatus
+	 * @throws PassportApplicationNotFoundException
+	 */
 	@Override
 	public ApplicationStatus getApplicationStatus(int appNo) {
 		logger.info("getApplicationStatus() called");
 		
-		PassportApplication app = viewPassportApplication(appNo);
+		PassportApplication app = getPassportApplication(appNo);
 		if(app != null) {
-			return new ApplicationStatus(appNo, appService.viewPassportApplication(appNo).getApplicationStatus());  
+			return new ApplicationStatus(appNo, appService.getPassportApplication(appNo).getApplicationStatus());  
 		}
 		throw new PassportApplicationNotFoundException("Passport Application does not exist!");
 	}

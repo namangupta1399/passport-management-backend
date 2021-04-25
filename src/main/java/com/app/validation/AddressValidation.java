@@ -31,7 +31,7 @@ public class AddressValidation {
 		}
 //		Check pin code
 		if(!validatePinCode(address.getPinCode())) {
-			throw new PassportApplicationFieldException("Field Street cannot be empty");
+			throw new PassportApplicationFieldException("Field pin code cannot be empty");
 		}
 //		Check mobile no
 		if(!validateMobileNo(address.getMobileNo())) {

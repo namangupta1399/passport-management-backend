@@ -26,6 +26,10 @@ public class PassportApplicationValidation {
 		if(null == application.getDateOfBirth()) {
 			throw new PassportApplicationFieldException("Application DOB cannot be blank");
 		}
+//		Check place of birth
+		if(application.getPlaceOfBirth().isEmpty()) {
+			throw new PassportApplicationFieldException("Application place of birth cannot be blank");
+		}
 //		Check marital status
 		if(!checkMaritalStatus(application.getMaritalStatus().toLowerCase())) {
 			throw new PassportApplicationFieldException("Available options for the field marital status: Single, Married, Divorced, Widow");
@@ -42,6 +46,9 @@ public class PassportApplicationValidation {
 	
 //	Check marital status
 	private boolean checkMaritalStatus(String maritalStatus) {
+		if(maritalStatus.isEmpty()) {
+			throw new PassportApplicationFieldException("Marital status cannot be blank");
+		}
 		return maritalStatus.equals("widow") || maritalStatus.equals("divorced") || maritalStatus.equals("single") || maritalStatus.equals("married");
 	}
 }
