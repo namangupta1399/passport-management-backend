@@ -35,7 +35,6 @@ class UserServiceTests {
 	void testAddUserNullRole() {
 
 		User user = new User(1, "Qwerty!23", "", "testcase@abc.com", new Date(), new Date());
-		
 		assertEquals("admin", userService.addUser(user).getuserRole());
 
 	}
@@ -86,7 +85,7 @@ class UserServiceTests {
 	void testGetUser() {
 		System.out.println("Test get user");
 		User user = new User(1, "Qwerty!123", "applicant", "testuser@gmail.com", new Date(), new Date());
-		userService.addUser(user);
+//		userService.addUser(user);
 		when(userService.getUser(1)).thenReturn(user);
 		assertEquals(user, userService.getUser(1));
 	}

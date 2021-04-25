@@ -46,6 +46,30 @@ public class PassportApplication {
 		super();
 	}
 
+	public PassportApplication(int applicationNo, String firstName, String middleName, String lastName, String gender,
+			Date dateOfBirth, String placeOfBirth, String maritalStatus, boolean isIndian, String employmentType,
+			String educationalQualification, Address address, List<Document> documents, boolean applicationStatus,
+			Date createdOn, Date updatedOn, User user) {
+		super();
+		this.applicationNo = applicationNo;
+		this.firstName = firstName;
+		this.middleName = middleName;
+		this.lastName = lastName;
+		this.gender = gender;
+		this.dateOfBirth = dateOfBirth;
+		this.placeOfBirth = placeOfBirth;
+		this.maritalStatus = maritalStatus;
+		this.isIndian = isIndian;
+		this.employmentType = employmentType;
+		this.educationalQualification = educationalQualification;
+		this.address = address;
+		this.documents = documents;
+		this.applicationStatus = applicationStatus;
+		this.createdOn = createdOn;
+		this.updatedOn = updatedOn;
+		this.user = user;
+	}
+
 	public int getApplicationNo() {
 		return applicationNo;
 	}

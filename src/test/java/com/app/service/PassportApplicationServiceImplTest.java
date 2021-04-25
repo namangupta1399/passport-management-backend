@@ -1,9 +1,6 @@
-package com.app.Test;
+package com.app.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -29,7 +26,7 @@ import com.app.beans.Document;
 import com.app.service.PassportApplicationServiceImpl;
 
 @SpringBootTest
-public class PassportApplicationServiceImplTest {
+class PassportApplicationServiceImplTest {
 
 	@Autowired
 	private PassportApplicationServiceImpl applicationService;
@@ -107,11 +104,11 @@ public class PassportApplicationServiceImplTest {
 		
 		PassportApplication application = new PassportApplication(1,"Greg","Mathews","Brown","male",
 				new Date(), "New Delhi","single", true, "self-employed","Phd",
-				new Address(200,"221B","Baker Street","Delhi","South Delhi","564732","9867543248"), documentList ,false, new Date(), new Date(), new User(1,"password","admin","test@abc.com",new Date(),new Date()));
+				new Address(200,"","Baker Street","Delhi","South Delhi","564732","9867543248"), documentList ,false, new Date(), new Date(), new User(1,"password","admin","test@abc.com",new Date(),new Date()));
 		
 		when(applicationService.addPassportApplication(application)).thenReturn(application);
 		
-		assertEquals(application,applicationService.addPassportApplication(application));
+		assertEquals(123,applicationService.addPassportApplication(application));
 		
 	}
 	
