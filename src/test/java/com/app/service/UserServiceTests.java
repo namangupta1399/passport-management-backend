@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import com.app.beans.User;
-import com.app.exception.EmailInvalidException;
 import com.app.repository.UserRepository;
 
 @SpringBootTest

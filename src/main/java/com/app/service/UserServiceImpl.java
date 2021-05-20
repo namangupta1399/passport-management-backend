@@ -1,15 +1,13 @@
 package com.app.service;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -75,13 +73,16 @@ public class UserServiceImpl implements IUserService {
 	 */
 	public User updateUser(int userId, User user) {
 		logger.info("updateUser() called"); 
-		
-		if(getUser(userId) == null) {
+		User oldUser = getUser(userId);
+		if(oldUser == null) {
 			throw new UserNotFoundException("User not found!");
 		}		
 		
 		userValidation.validateUserFields(user);
-		return userRepository.save(user);
+		oldUser.setEmail(user.getEmail());
+		oldUser.setPassword(user.getPassword());
+		oldUser.setuserRole(user.getuserRole());
+		return userRepository.save(oldUser);
 		
 	}
 
@@ -112,7 +113,7 @@ public class UserServiceImpl implements IUserService {
 		logger.info("getAllUser()called"); 
 		
 		ArrayList<User> list = new ArrayList<>();
-		List<User> userList = userRepository.findAllApplicant();
+		List<User> userList = userRepository.findAll();
 		if(userList.isEmpty()) {
 			throw new UserListEmptyException("No user found");
 		}

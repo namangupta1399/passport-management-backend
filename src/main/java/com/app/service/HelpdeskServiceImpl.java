@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import com.app.beans.Helpdesk;
 import com.app.beans.User;
-import com.app.exception.DocumentNotFoundException;
 import com.app.exception.HelpdeskQueryListEmptyException;
 import com.app.exception.HelpdeskQueryNotFoundException;
 import com.app.repository.HelpdeskRepository;

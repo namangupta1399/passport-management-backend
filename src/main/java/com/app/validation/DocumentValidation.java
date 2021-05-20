@@ -9,7 +9,10 @@ public class DocumentValidation {
 	
 //	Pattern check method
 	private boolean validatePattern(String regex, String input) {
-		return Pattern.matches(regex, input);		
+		if(input.isEmpty()) {
+			return false;
+		}
+		return Pattern.matches(regex, input);
 	}
 
 

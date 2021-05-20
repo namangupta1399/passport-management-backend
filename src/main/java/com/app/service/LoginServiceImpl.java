@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.app.beans.User;
 import com.app.beans.UserCredentials;
-import com.app.exception.HelpdeskQueryListEmptyException;
 import com.app.exception.PasswordInvalidException;
 import com.app.exception.UserRoleInvalidException;
 import com.app.validation.UserValidation;

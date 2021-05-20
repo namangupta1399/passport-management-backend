@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +32,7 @@ import com.app.service.UserServiceImpl;
 
 @RestController
 @RequestMapping("/applicant")
+@CrossOrigin
 public class ApplicantController {
 
 	Logger logger = LoggerFactory.getLogger(ApplicantController.class);
@@ -52,7 +54,6 @@ public class ApplicantController {
 
 	/**
 	 * The method is used to create a new user
-	 * 
 	 * @param UserDto
 	 * @return ResponseEntity<UserDto> - returns the new user
 	 */
@@ -68,7 +69,6 @@ public class ApplicantController {
 
 	/**
 	 * The method is used to get user by user id
-	 * 
 	 * @param nothing
 	 * @return ResponseEntity<User>
 	 */
@@ -84,7 +84,6 @@ public class ApplicantController {
 
 	/**
 	 * The method is used to delete user
-	 * 
 	 * @param user id
 	 * @return ResponseEntity<Boolean>
 	 */
@@ -100,7 +99,6 @@ public class ApplicantController {
 
 	/**
 	 * The method is used to update user
-	 * 
 	 * @param UserDto
 	 * @return ResponseEntity<UserDto> - returns the updated user
 	 */
@@ -116,7 +114,6 @@ public class ApplicantController {
 
 	/**
 	 * The method is used to create passport application
-	 * 
 	 * @param PassportApplicationDto
 	 * @return ResponseEntity<PassportApplicationDto> - returns the new application
 	 */
@@ -143,6 +140,21 @@ public class ApplicantController {
 		logger.info("viewPassportApplication() called");
 
 		PassportApplication passApp = applicationService.getPassportApplication(appId);
+		return new ResponseEntity<>(passApp, HttpStatus.OK);
+	}
+	
+	/**
+	 * The method is used to get passport application
+	 * @param user id
+	 * @return ResponseEntity<PassportApplication>
+	 */
+	// Get passport app by user id
+	@GetMapping(path = "/application/user/{userId}", produces = "application/json")
+	public ResponseEntity<PassportApplication> getPassportApplicationByUser(@PathVariable("userId") int userId) {
+
+		logger.info("viewPassportApplicationByUser() called");
+
+		PassportApplication passApp = applicationService.getPassportApplicationByUserId(userId);
 		return new ResponseEntity<>(passApp, HttpStatus.OK);
 	}
 

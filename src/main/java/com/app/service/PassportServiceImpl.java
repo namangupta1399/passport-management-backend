@@ -15,7 +15,6 @@ import com.app.beans.Passport;
 import com.app.beans.PassportApplication;
 import com.app.exception.PassportAlreadyIssuedException;
 import com.app.exception.PassportApplicationFieldException;
-import com.app.exception.PassportApplicationNotFoundException;
 import com.app.exception.PassportListEmptyException;
 import com.app.exception.PassportNotFoundException;
 import com.app.repository.PassportRepository;
@@ -51,7 +50,7 @@ public class PassportServiceImpl implements IPassportService {
 		if (application.getApplicationStatus()) {
 
 			Passport newPassport = new Passport();
-			int passportNo = (new Random().nextInt() * 10000000);
+			int passportNo = Math.abs((new Random().nextInt() * 10000000));
 			newPassport.setPassportNo(String.valueOf(passportNo));
 			newPassport.setNationality(application.getIsIndian() ? "Indian" : "Others");
 

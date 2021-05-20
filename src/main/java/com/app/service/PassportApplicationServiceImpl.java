@@ -110,7 +110,7 @@ public class PassportApplicationServiceImpl implements IPassportApplicationServi
 	public PassportApplication updatePassportApplication(PassportApplication application) {
 		logger.info("updatePassportApplication() called");
 
-		PassportApplication app = getPassportApplication(application.getApplicationNo());
+		PassportApplication app = getPassportApplicationByUserId(application.getUser().getId());
 		if (app != null) {
 			return applicationRepository.save(application);
 		}

@@ -1,8 +1,6 @@
 package com.app.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -12,18 +10,15 @@ import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import com.app.beans.Address;
+import com.app.beans.Document;
 import com.app.beans.PassportApplication;
 import com.app.beans.User;
 import com.app.repository.PassportApplicationRepository;
-import com.app.beans.Address;
-import com.app.beans.Document;
-import com.app.service.PassportApplicationServiceImpl;
 
 @SpringBootTest
 class PassportApplicationServiceImplTest {
@@ -43,7 +38,7 @@ class PassportApplicationServiceImplTest {
 	}
 
 	@Test
-	public void testFirstNameNullFail() {
+	void testFirstNameNullFail() {
 		Document document = new Document(200, "Aadhaar", "2343 4532 7895", true, new Date(), new Date());
 		List<Document> documentList = new ArrayList<>();
 		documentList.add(document);
@@ -60,7 +55,7 @@ class PassportApplicationServiceImplTest {
 	}
 	
 	@Test
-	public void testFirstNameNullPass() {
+	void testFirstNameNullPass() {
 		Document document = new Document(200, "Aadhaar", "2343 4532 7895", true, new Date(), new Date());
 		List<Document> documentList = new ArrayList<>();
 		documentList.add(document);
@@ -77,7 +72,7 @@ class PassportApplicationServiceImplTest {
 	}
 
 	@Test
-	public void testLastNameNull() {
+	void testLastNameNull() {
 		Document document = new Document(200, "Aadhaar", "2343 4532 7895", true, new Date(), new Date());
 		List<Document> documentList = new ArrayList<>();
 		documentList.add(document);
@@ -95,7 +90,7 @@ class PassportApplicationServiceImplTest {
 	}
 	
 	@Test
-	public void testLastNameNullPass() {
+	void testLastNameNullPass() {
 		Document document = new Document(200, "Aadhaar", "2343 4532 7895", true, new Date(), new Date());
 		List<Document> documentList = new ArrayList<>();
 		documentList.add(document);
@@ -113,7 +108,7 @@ class PassportApplicationServiceImplTest {
 	}
 	
 	@Test
-	public void testGenderNullPass() {
+	void testGenderNullPass() {
 		Document document = new Document(200, "Aadhaar", "2343 4532 7895", true, new Date(), new Date());
 		List<Document> documentList = new ArrayList<>();
 		documentList.add(document);
@@ -131,7 +126,7 @@ class PassportApplicationServiceImplTest {
 	}
 	
 	@Test
-	public void testDOBNullPass() {
+	void testDOBNullPass() {
 		Document document = new Document(200, "Aadhaar", "2343 4532 7895", true, new Date(), new Date());
 		List<Document> documentList = new ArrayList<>();
 		documentList.add(document);
@@ -149,7 +144,7 @@ class PassportApplicationServiceImplTest {
 	}
 	
 	@Test
-	public void testPlaceOfBirthNullPass() {
+	void testPlaceOfBirthNullPass() {
 		Document document = new Document(200, "Aadhaar", "2343 4532 7895", true, new Date(), new Date());
 		List<Document> documentList = new ArrayList<>();
 		documentList.add(document);
@@ -167,7 +162,7 @@ class PassportApplicationServiceImplTest {
 	}
 
 	@Test
-	public void testMaritalStatusNull() {
+	void testMaritalStatusNull() {
 		Document document = new Document(200, "Aadhaar", "2343 4532 7895", true, new Date(), new Date());
 		List<Document> documentList = new ArrayList<>();
 		documentList.add(document);
@@ -185,7 +180,7 @@ class PassportApplicationServiceImplTest {
 	}
 	
 	@Test
-	public void testMaritalStatusFromOptionsFalse() {
+	void testMaritalStatusFromOptionsFalse() {
 		Document document = new Document(200, "Aadhaar", "2343 4532 7895", true, new Date(), new Date());
 		List<Document> documentList = new ArrayList<>();
 		documentList.add(document);
@@ -203,7 +198,7 @@ class PassportApplicationServiceImplTest {
 	}
 	
 	@Test
-	public void testMaritalStatusFromOptionsPass() {
+	void testMaritalStatusFromOptionsPass() {
 		Document document = new Document(200, "Aadhaar", "2343 4532 7895", true, new Date(), new Date());
 		List<Document> documentList = new ArrayList<>();
 		documentList.add(document);
@@ -221,7 +216,7 @@ class PassportApplicationServiceImplTest {
 	}
 	
 	@Test
-	public void testHouseNoNull() {
+	void testHouseNoNull() {
 		Document document = new Document(200, "Aadhaar", "2343 4532 7895", true, new Date(), new Date());
 		List<Document> documentList = new ArrayList<>();
 		documentList.add(document);
@@ -239,7 +234,7 @@ class PassportApplicationServiceImplTest {
 	}
 	
 	@Test
-	public void testStreetNull() {
+	void testStreetNull() {
 		Document document = new Document(200, "Aadhaar", "2343 4532 7895", true, new Date(), new Date());
 		List<Document> documentList = new ArrayList<>();
 		documentList.add(document);
@@ -257,7 +252,7 @@ class PassportApplicationServiceImplTest {
 	}
 	
 	@Test
-	public void testStateNull() {
+	void testStateNull() {
 		Document document = new Document(200, "Aadhaar", "2343 4532 7895", true, new Date(), new Date());
 		List<Document> documentList = new ArrayList<>();
 		documentList.add(document);
@@ -275,7 +270,7 @@ class PassportApplicationServiceImplTest {
 	}
 	
 	@Test
-	public void testPinCodeNull() {
+	void testPinCodeNull() {
 		Document document = new Document(200, "Aadhaar", "2343 4532 7895", true, new Date(), new Date());
 		List<Document> documentList = new ArrayList<>();
 		documentList.add(document);
@@ -293,7 +288,7 @@ class PassportApplicationServiceImplTest {
 	}
 	
 	@Test
-	public void testDocumentNameNull() {
+	void testDocumentNameNull() {
 		Document document = new Document(200, "", "2343 4532 7895", true, new Date(), new Date());
 		List<Document> documentList = new ArrayList<>();
 		documentList.add(document);
@@ -311,7 +306,7 @@ class PassportApplicationServiceImplTest {
 	}
 	
 	@Test
-	public void testAadhaarValid() {
+	void testAadhaarValid() {
 		Document document = new Document(200, "Aadhaar", "2343 45327895", true, new Date(), new Date());
 		List<Document> documentList = new ArrayList<>();
 		documentList.add(document);
@@ -329,7 +324,7 @@ class PassportApplicationServiceImplTest {
 	}
 	
 	@Test
-	public void testPanValid() {
+	void testPanValid() {
 		Document document = new Document(200, "pan", "", true, new Date(), new Date());
 		List<Document> documentList = new ArrayList<>();
 		documentList.add(document);
@@ -347,7 +342,7 @@ class PassportApplicationServiceImplTest {
 	}
 
 	@Test
-	public void testApplicationNotNull() {
+	void testApplicationNotNull() {
 		Document document = new Document(200, "Aadhaar", "2343 4532 7895", true, new Date(), new Date());
 		List<Document> documentList = new ArrayList<>();
 		documentList.add(document);
@@ -360,7 +355,7 @@ class PassportApplicationServiceImplTest {
 
 		when(applicationService.addPassportApplication(application)).thenReturn(application);
 
-		assertEquals(123, applicationService.addPassportApplication(application));
+		assertEquals(application, applicationService.addPassportApplication(application));
 
 	}
 

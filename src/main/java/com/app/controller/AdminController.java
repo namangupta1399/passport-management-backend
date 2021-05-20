@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +35,7 @@ import com.app.service.UserServiceImpl;
 
 @RestController
 @RequestMapping("/admin")
+@CrossOrigin
 public class AdminController {
 
 	Logger logger = LoggerFactory.getLogger(AdminController.class);
@@ -62,7 +64,7 @@ public class AdminController {
 	 * @return ResponseEntity<List<User>> - returns list of all users
 	 */
 //	Get all users
-	@GetMapping(path = "/applicants", produces = "application/json")
+	@GetMapping(path = "/users", produces = "application/json")
 	public ResponseEntity<List<User>> getAllUsers() {
 		logger.info("getAllUser() called");
 
@@ -90,7 +92,7 @@ public class AdminController {
 	 * @return ResponseEntity<User>
 	 */
 	// Get user by userId
-	@GetMapping(path = "/user/{id}", consumes = "application/json")
+	@GetMapping(path = "/user/{id}", produces= "application/json")
 	public ResponseEntity<User> getUser(@PathVariable("id") int userId) {
 		logger.info("viewUser() called");
 		User user = userService.getUser(userId);
@@ -103,7 +105,7 @@ public class AdminController {
 	 * @return ResponseEntity<Boolean>
 	 */
 	// Delete user by id
-	@DeleteMapping(path = "/user/delete/{id}", consumes = "application/json")
+	@DeleteMapping(path = "/user/delete/{id}")
 	public ResponseEntity<Boolean> deleteUser(@PathVariable("id") int userId) {
 		logger.info("deleteUser() called");
 		userService.deleteUser(userId);
@@ -129,7 +131,7 @@ public class AdminController {
 	 * @return ResponseEntity<PassportApplication>
 	 */
 	// Get passport app by id
-	@GetMapping(path = "/application/{id}", consumes = "application/json")
+	@GetMapping(path = "/application/{id}", produces = "application/json")
 	public ResponseEntity<PassportApplication> getPassportApplication(@PathVariable("id") int appId) {
 		logger.info("viewPassportApplication() called");
 		PassportApplication passApp = applicationService.getPassportApplication(appId);
@@ -255,11 +257,20 @@ public class AdminController {
 	 * @return ResponseEntity<DocumentStatus>
 	 */
 //	Update document status
-	@PutMapping(path = "/application/document/status/update/{docId}", produces = "application/json")
-	public ResponseEntity<DocumentStatus> updateDocumentStatus(@PathVariable("docId") int docId,
-			@RequestBody boolean status) {
+//	@PutMapping(path = "/application/document/status/update/{docId}", produces = "application/json")
+//	public ResponseEntity<DocumentStatus> updateDocumentStatus(@PathVariable("docId") int docId,
+//			@RequestBody boolean status) {
+//		logger.info("updateDocumentStatus() called");
+//		DocumentStatus docStatus = docService.updateDocumentStatus(docId, status);
+//		if (docStatus != null) {
+//			return new ResponseEntity<>(docStatus, HttpStatus.OK);
+//		}
+//		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//	}
+	@PutMapping(path = "/application/document/status/update", consumes="application/json" , produces = "application/json")
+	public ResponseEntity<DocumentStatus> updateDocumentStatus(@RequestBody DocumentStatus documentStatus) {
 		logger.info("updateDocumentStatus() called");
-		DocumentStatus docStatus = docService.updateDocumentStatus(docId, status);
+		DocumentStatus docStatus = docService.updateDocumentStatus(documentStatus.getDocId(), documentStatus.getIsVerified());
 		if (docStatus != null) {
 			return new ResponseEntity<>(docStatus, HttpStatus.OK);
 		}

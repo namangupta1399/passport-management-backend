@@ -1,6 +1,7 @@
 package com.app.service;
 
 import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
@@ -11,8 +12,6 @@ import org.springframework.stereotype.Service;
 import com.app.beans.Document;
 import com.app.beans.DocumentStatus;
 import com.app.exception.DocumentNotFoundException;
-import com.app.exception.PassportApplicationNotFoundException;
-import com.app.exception.UserListEmptyException;
 import com.app.repository.DocumentRepository;
 
 @Service
