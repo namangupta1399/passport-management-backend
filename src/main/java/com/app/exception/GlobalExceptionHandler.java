@@ -84,6 +84,14 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<>(resp, HttpStatus.NOT_FOUND);
 	}
 	
+	@ExceptionHandler(PassportListEmptyException.class)
+	public ResponseEntity<Object> handlePassportListEmptyException(PassportListEmptyException ex, HttpServletRequest request) throws PassportApplicationListEmptyException {
+		ExceptionResponse resp = new ExceptionResponse(new Date(System.currentTimeMillis()), ex.toString(),
+				request.getRequestURI(), HttpStatus.NOT_FOUND);
+		
+		return new ResponseEntity<>(resp, HttpStatus.NOT_FOUND);
+	}
+	
 	@ExceptionHandler(UserListEmptyException.class)
 	public ResponseEntity<Object> handleUserListEmptyException(UserListEmptyException ex, HttpServletRequest request) throws UserListEmptyException {
 		ExceptionResponse resp = new ExceptionResponse(new Date(System.currentTimeMillis()), ex.toString(),

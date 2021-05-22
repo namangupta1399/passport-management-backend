@@ -15,10 +15,13 @@ import org.springframework.stereotype.Service;
 import com.app.beans.Address;
 import com.app.beans.ApplicationStatus;
 import com.app.beans.Document;
+import com.app.beans.Passport;
 import com.app.beans.PassportApplication;
+import com.app.exception.PassportAlreadyIssuedException;
 import com.app.exception.PassportApplicationAlreadyExists;
 import com.app.exception.PassportApplicationListEmptyException;
 import com.app.exception.PassportApplicationNotFoundException;
+import com.app.exception.PassportNotFoundException;
 import com.app.exception.UserNotFoundException;
 import com.app.repository.AddressRepository;
 import com.app.repository.DocumentRepository;
@@ -35,6 +38,9 @@ public class PassportApplicationServiceImpl implements IPassportApplicationServi
 
 	@Autowired
 	private PassportApplicationRepository applicationRepository;
+	
+	@Autowired
+	private PassportServiceImpl passportService;
 
 	@Autowired
 	private AddressRepository addressRepository;
@@ -112,6 +118,7 @@ public class PassportApplicationServiceImpl implements IPassportApplicationServi
 
 		PassportApplication app = getPassportApplicationByUserId(application.getUser().getId());
 		if (app != null) {
+			applicationValidation.validateApplicationFields(application);
 			return applicationRepository.save(application);
 		}
 		return app;
@@ -139,8 +146,11 @@ public class PassportApplicationServiceImpl implements IPassportApplicationServi
 	 */
 	public PassportApplication getPassportApplicationByUserId(int userId) {
 		logger.info("viewPassportApplicationByUserId() called");
-
-		return applicationRepository.findByUserId(userId);
+		PassportApplication app = applicationRepository.findByUserId(userId);
+		if(app != null) {
+			return app;
+		}
+		throw new PassportApplicationNotFoundException("Passport Application not found!");
 
 	}
 
@@ -179,6 +189,12 @@ public class PassportApplicationServiceImpl implements IPassportApplicationServi
 		PassportApplication app = getPassportApplication(appNo);
 		if (app != null) {
 			app.setApplicationStatus(status);
+			
+//			Passport passport = passportService.getPassportByApp(appNo);
+//			if(passport != null) {
+//				throw new PassportAlreadyIssuedException("Passport already issued! Cannot update application status.");
+//			}
+			
 			return applicationRepository.save(app);
 		}
 		throw new PassportApplicationNotFoundException("Passport application not found!");

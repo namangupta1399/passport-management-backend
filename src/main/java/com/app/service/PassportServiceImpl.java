@@ -86,6 +86,23 @@ public class PassportServiceImpl implements IPassportService {
 		}
 		return passport;
 	}
+	
+	/**
+	 * The method is used to get passport details by appNo
+	 * @param application no
+	 * @return Passport
+	 * @throws PassportNotFoundException - if the app no. is not found
+	 */
+	public Passport getPassportByApp(int appNo) {
+
+		logger.info("getPassportByApp() called");
+
+		Passport passport = passRepository.findByApplicationNo(appNo);
+		if (passport == null) {
+			throw new PassportNotFoundException("No passport found for Application No.: " + appNo);
+		}
+		return passport;
+	}
 
 	/**
 	 * The method is used to get list of all passports

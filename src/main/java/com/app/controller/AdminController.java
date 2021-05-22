@@ -223,11 +223,10 @@ public class AdminController {
 	 * @return ResponseEntity<PassportApplication>
 	 */
 	// Update application status
-	@PutMapping(path = "/application/status/update/{appNo}", produces = "application/json")
-	public ResponseEntity<PassportApplication> updateApplicationStatus(@PathVariable("appNo") int appNo,
-			@RequestBody boolean status) {
+	@PutMapping(path = "/application/status/update", consumes= "application/json", produces = "application/json")
+	public ResponseEntity<PassportApplication> updateApplicationStatus(@RequestBody ApplicationStatus applicationStatus) {
 		logger.info("updateApplicationStatus() called");
-		PassportApplication app = applicationService.updateApplicationStatus(status, appNo);
+		PassportApplication app = applicationService.updateApplicationStatus(applicationStatus.getStatus(), applicationStatus.getAppNo());
 		return new ResponseEntity<>(app, HttpStatus.OK);
 	}
 
@@ -256,17 +255,6 @@ public class AdminController {
 	 * @param updated status of document
 	 * @return ResponseEntity<DocumentStatus>
 	 */
-//	Update document status
-//	@PutMapping(path = "/application/document/status/update/{docId}", produces = "application/json")
-//	public ResponseEntity<DocumentStatus> updateDocumentStatus(@PathVariable("docId") int docId,
-//			@RequestBody boolean status) {
-//		logger.info("updateDocumentStatus() called");
-//		DocumentStatus docStatus = docService.updateDocumentStatus(docId, status);
-//		if (docStatus != null) {
-//			return new ResponseEntity<>(docStatus, HttpStatus.OK);
-//		}
-//		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//	}
 	@PutMapping(path = "/application/document/status/update", consumes="application/json" , produces = "application/json")
 	public ResponseEntity<DocumentStatus> updateDocumentStatus(@RequestBody DocumentStatus documentStatus) {
 		logger.info("updateDocumentStatus() called");
@@ -301,6 +289,33 @@ public class AdminController {
 		logger.info("getPassport() called");
 		Passport passport = passportService.getPassport(passNo);
 		return new ResponseEntity<>(passport, HttpStatus.OK);
+	}
+	
+	/**
+	 * The method is used to get passport details
+	 * @param application no
+	 * @return ResponseEntity<Passport>
+	 */
+//	Get passport details by application no
+	@GetMapping(path = "/passport/app/{appNo}", produces = "application/json")
+	public ResponseEntity<Passport> getPassportByApp(@PathVariable("appNo") int appNo) {
+		logger.info("getPassportByApp() called");
+		Passport passport = passportService.getPassportByApp(appNo);
+		return new ResponseEntity<>(passport, HttpStatus.OK);
+	}
+	
+
+	/**
+	 * The method is used to get passport details
+	 * @param passport no
+	 * @return ResponseEntity<Passport>
+	 */
+//	Get passport details
+	@GetMapping(path = "/passports", produces = "application/json")
+	public ResponseEntity<List<Passport>> getAllPassports() {
+		logger.info("getAllPassports() called");
+		List<Passport> passports = passportService.getAllPassport();
+		return new ResponseEntity<>(passports, HttpStatus.OK);
 	}
 
 }
