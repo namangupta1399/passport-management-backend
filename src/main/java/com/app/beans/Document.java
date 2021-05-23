@@ -2,10 +2,12 @@ package com.app.beans;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -17,6 +19,7 @@ public class Document {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE)
 	private int documentId; 
 	private String documentName;
+	@Column(unique = true)
 	private String documentValue;
 	private boolean isVerified;
 	@CreationTimestamp

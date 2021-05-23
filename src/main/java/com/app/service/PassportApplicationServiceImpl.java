@@ -68,11 +68,13 @@ public class PassportApplicationServiceImpl implements IPassportApplicationServi
 	public PassportApplication addPassportApplication(PassportApplication application) {
 		logger.info("addPassportApplication() called");
 
+		PassportApplication oldApp =  applicationRepository.findByUserId(application.getUser().getId());
+		
 		if (userService.getUser(application.getUser().getId()) == null) {
 			throw new UserNotFoundException("User not found!");
 		}
 
-		if (getPassportApplicationByUserId(application.getUser().getId()) != null) {
+		if (oldApp != null) {
 			throw new PassportApplicationAlreadyExists("Application exists");
 		}
 
