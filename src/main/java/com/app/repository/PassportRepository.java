@@ -12,4 +12,7 @@ public interface PassportRepository extends JpaRepository<Passport, Integer> {
 	
 	@Query("SELECT p from Passport p WHERE p.passportApplication.applicationNo=?1")
 	Passport findByApplicationNo(int appNo);
+
+	@Query("SELECT p from Passport p WHERE p.passportApplication.user.id=?1")
+	Passport findByUser(int id);
 }

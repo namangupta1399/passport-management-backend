@@ -103,6 +103,24 @@ public class PassportServiceImpl implements IPassportService {
 		}
 		return passport;
 	}
+	
+	
+	/**
+	 * The method is used to get passport details by user id
+	 * @param user id
+	 * @return Passport
+	 * @throws PassportNotFoundException - if the user id is not found
+	 */
+	public Passport getPassportByUser(int id) {
+
+		logger.info("getPassportByUser() called");
+
+		Passport passport = passRepository.findByUser(id);
+		if (passport == null) {
+			throw new PassportNotFoundException("No passport found");
+		}
+		return passport;
+	}
 
 	/**
 	 * The method is used to get list of all passports

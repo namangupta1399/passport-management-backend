@@ -12,4 +12,6 @@ public interface IPassportService {
 	
 	public List<Passport> getAllPassport();
 	
+	public Passport getPassportByUser(int id);
+	
 }

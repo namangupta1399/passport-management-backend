@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.beans.ApplicationStatus;
 import com.app.beans.Helpdesk;
 import com.app.beans.HelpdeskDto;
+import com.app.beans.Passport;
 import com.app.beans.PassportApplication;
 import com.app.beans.PassportApplicationDto;
 import com.app.beans.User;
@@ -42,6 +43,9 @@ public class ApplicantController {
 
 	@Autowired
 	private PassportApplicationServiceImpl applicationService;
+	
+	@Autowired
+	private PassportServiceImpl passportService;
 
 	@Autowired
 	private HelpdeskServiceImpl helpdeskService;
@@ -248,6 +252,19 @@ public class ApplicantController {
 
 		ApplicationStatus status = applicationService.getApplicationStatus(appNo);
 		return new ResponseEntity<>(status, HttpStatus.OK);
+	}
+	
+	/**
+	 * The method is used to get passport details
+	 * @param application no
+	 * @return ResponseEntity<Passport>
+	 */
+//	Get passport details by user id
+	@GetMapping(path = "/passport/{id}", produces = "application/json")
+	public ResponseEntity<Passport> getPassportByUser(@PathVariable("id") int id) {
+		logger.info("getPassportByUser() called");
+		Passport passport = passportService.getPassportByUser(id);
+		return new ResponseEntity<>(passport, HttpStatus.OK);
 	}
 
 }
