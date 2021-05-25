@@ -33,7 +33,7 @@ public class DocumentValidation {
 	}
 	
 	private boolean validateAadhaar(String aadhaar) {
-		return validatePattern("^[2-9]{1}[0-9]{3}\\\s[0-9]{4}\\\s[0-9]{4}$", aadhaar);
+		return validatePattern("^[2-9]{1}[0-9]{3}\\s[0-9]{4}\\s[0-9]{4}$", aadhaar);
 	}
 	
 	private boolean validatePan(String pan) {
